@@ -1,0 +1,2 @@
+class NoExhibitorException(Exception):
+    pass
