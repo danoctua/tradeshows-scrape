@@ -13,6 +13,8 @@ BOT_NAME = 'exhibitions'
 SPIDER_MODULES = ['exhibitions.spiders']
 NEWSPIDER_MODULE = 'exhibitions.spiders'
 
+DUPEFILTER_CLASS = 'scrapy.dupefilters.BaseDupeFilter'
+
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = 'exhibitions (+http://www.yourdomain.com)'
