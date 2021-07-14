@@ -12,4 +12,4 @@ class CoveringsItemLoader(ItemLoader):
 
     @staticmethod
     def category_in(categories: List[Optional[str]]):
-        return ", ".join(c.strip() for c in categories if c)
+        return " | ".join(c.strip() for c in categories if c)

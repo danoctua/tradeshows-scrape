@@ -46,6 +46,7 @@ class CoveringsSpider(BaseSpider):
         state = response.xpath('//*[@class="BoothContactState"]/text()').extract_first()
         country = response.xpath('//*[@class="BoothContactCountry"]/text()').extract_first()
         item.add_value("address", [city, state, country])
+        item.add_value("country", country)
 
         item.add_xpath("website", '//*[@id="BoothContactUrl"]/text()')
         item.add_xpath("description", '//*[@id="eboothContainer"]//p[not(@id) and not(@class)]/text()')

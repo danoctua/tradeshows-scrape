@@ -3,7 +3,8 @@ import pathlib
 from typing import IO
 
 from scrapy import Item
-from scrapy.exporters import CsvItemExporter
+
+from exhibitions.exporters.named_csv_item_exporter import NamedCsvItemExported
 
 RESULTS_FOLDER = "results"
 RESULTS_FILENAME_FORMAT = "Crawl-{start_datetime}.csv"
@@ -11,7 +12,7 @@ RESULTS_FILENAME_FORMAT = "Crawl-{start_datetime}.csv"
 
 class ExportItemPipeline:
 
-    exporter: CsvItemExporter
+    exporter: NamedCsvItemExported
     file: IO
 
     def open_spider(self, spider):
@@ -22,7 +23,7 @@ class ExportItemPipeline:
         )
         file_path.parent.mkdir(exist_ok=True, parents=True)
         self.file = open(file_path, "wb")
-        self.exporter = CsvItemExporter(self.file, fields_to_export=spider.ONLY_FIELDS)
+        self.exporter = NamedCsvItemExported(self.file)
 
     def process_item(self, item: Item, spider) -> Item:
         self.exporter.export_item(item)
