@@ -23,7 +23,7 @@ To develop new spider you have to make the following steps:
     * `name` - basic spider name that you could refer for later and that would be used to identify scrapped data.
     * `EXHIBITION_DATE`, `EXHIBITION_NAME`, `EXHIBITION_WEBSITE` - from the ticket description.
     * `URLS` - initial urls where we would extract exhibitors list from.
-    * [optional] `ONLY_FIELDS` - fields you want to export (one of the `Exhibitor` item fields).
+    * [optional] `HEADERS` - headers you want to send along with the initial request.
   * override two methods:
     * `fetch_exhibitors` - callback for initial urls. Select exhibitors here and add callback to the next method.
     * `parse_exhibitors` - extract exhibitor data and `yield` the `Exhibitor` item from this method.
