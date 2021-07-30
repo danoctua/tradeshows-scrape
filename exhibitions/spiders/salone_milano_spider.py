@@ -2,7 +2,7 @@ import datetime
 
 from scrapy.http import Response
 
-from exhibitions.spiders.base_spider import BaseSpider
+from exhibitions.spiders.base_spiders.base_spider import BaseSpider
 from exhibitions.item_loaders.salone_milano_loader import SaloneMilanoItemLoader
 from exhibitions.items.exhibitor import ExhibitorItem
 
