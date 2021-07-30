@@ -5,7 +5,7 @@ import warnings
 from scrapy.http import Response
 from itemloaders.processors import SelectJmes
 
-from exhibitions.spiders.base_spider import BaseSpider
+from exhibitions.spiders.base_spiders.base_spider import BaseSpider
 from exhibitions.item_loaders.atlanta_gift_item_loader import AtlantaGiftItemLoader
 from exhibitions.items.exhibitor import ExhibitorItem
 from exhibitions.utils.exceptions import NoExhibitorException

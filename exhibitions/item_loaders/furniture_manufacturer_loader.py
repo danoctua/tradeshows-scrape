@@ -1,17 +1,16 @@
-from itemloaders.processors import TakeFirst
-from scrapy.loader import ItemLoader
 from typing import List
 
+from exhibitions.item_loaders.base_item_loaders.base_item_loader import BaseItemLoader, join_loaded
 
-class FurnitureManufacturerItemLoader(ItemLoader):
-    default_output_processor = TakeFirst()
+
+class FurnitureManufacturerItemLoader(BaseItemLoader):
 
     @staticmethod
     def category_in(category_list: List[str]) -> str:
         # remove empty strings
-        return " | ".join([c.strip() for c in category_list if c.strip()])
+        return join_loaded(category_list)
 
     @staticmethod
     def address_in(address_lines: List[str]) -> str:
         # remove empty strings
-        return ", ".join([a.strip() for a in address_lines if a.strip()])
+        return join_loaded(address_lines, ", ")

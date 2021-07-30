@@ -5,7 +5,7 @@ from typing import Dict, List, Optional, Union
 class BaseSpider(scrapy.Spider):
     name: str  # name of the spider
     URLS: List[str]  # list of initial urls - to be defined in the spider
-    HEADERS: Dict[str, Union[str, int, bool]]  # request headers
+    HEADERS: Dict[str, Union[str, int, bool]] = {}  # request headers
 
     ONLY_FIELDS: Optional[tuple] = None  # fields to export
 
