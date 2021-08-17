@@ -1,4 +1,4 @@
-# Wayfair Trade Shows scrapping tool
+# Trade Shows scrapping tool
 
 Simple scrapping tool for extracting exhibitors data from the trade shows pages.
 
