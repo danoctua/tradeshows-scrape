@@ -5,7 +5,7 @@ Simple scrapping tool for extracting exhibitors data from the trade shows pages.
 Current features:
 * base spider with generating start request[s].
 * base exhibitor item with predefined fields (feel free to expand it with new fields).
-* export-to-csv pipeline [crawles for each spider are grouped in the folders].
+* export-to-csv pipeline [crawls for each spider are grouped in the folders].
 
 
 ## Configuration
@@ -17,7 +17,7 @@ To use this tool, be sure to install all packages, mentioned in `requirements.tx
 To develop new spider you have to make the following steps:
 
 * check if spider exists for this trade show.
-* if not, create spider file in the spiders folder (let's keep the same convention here: `spider_name_with_underscores`).
+* if not, create spider file in the `spiders` folder (let's keep the same convention here: `trade_show_name_spider.py`).
   * inherit after the `BaseSpider` which for now provides `start_requests` method.
   * add the following variables:
     * `name` - basic spider name that you could refer for later and that would be used to identify scrapped data.
@@ -41,3 +41,14 @@ After you'd see the logs and output of the spider. Spider finish execution after
 Go to the `result/[SPIDER_NAME]` and you would find all crawl results here. Naming format is `Crawl-[CRAWL_START_DATETIME].csv`.
 
 Feel free to use it and add some docs here when you create useful pipelines/middlewares.
+
+## List of supported trade shows
+
+- Atlanta Gift
+- Coverings
+- Furniture
+- High Point Market
+- Las Vegas Market
+- LightFair
+- Salone Milano
+- Super Zoo
