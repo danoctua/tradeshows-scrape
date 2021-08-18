@@ -7,7 +7,6 @@ from exhibitions.constants import SUBMITTED_BY
 
 
 class PrefetchExhibitionDataPipeline:
-
     def process_item(self, item: Item, spider) -> Item:
         adapter = ItemAdapter(item)
         adapter["show_name"] = spider.EXHIBITION_NAME

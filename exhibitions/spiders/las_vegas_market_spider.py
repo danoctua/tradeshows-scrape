@@ -38,7 +38,7 @@ class LasVegasMarketSpider(BaseSpider):
     custom_settings = {
         "ITEM_PIPELINES": {
             "exhibitions.pipelines.prefetch_exhibition_data_pipeline.PrefetchExhibitionDataPipeline": 10,
-            "exhibitions.pipelines.export_item_pipeline.ExportItemPipeline": 100
+            "exhibitions.pipelines.export_item_pipeline.ExportItemPipeline": 100,
         },
     }
 
@@ -48,9 +48,7 @@ class LasVegasMarketSpider(BaseSpider):
         for exhibitor in set(exhibitors):
             yield RequestWithParams(
                 url=self.EXHIBITOR_DETAILS_API,
-                params={
-                    "exhibitorIds": exhibitor
-                },
+                params={"exhibitorIds": exhibitor},
                 callback=self.parse_exhibitors,
                 headers=self.HEADERS,
                 meta=response.meta,
@@ -60,11 +58,9 @@ class LasVegasMarketSpider(BaseSpider):
         if exhibitors:
             yield RequestWithParams(
                 url=response.url,
-                params={
-                    "page": current_page + 1
-                },
+                params={"page": current_page + 1},
                 callback=self.fetch_exhibitors,
-                headers=self.HEADERS
+                headers=self.HEADERS,
             )
 
     @json_response_wrapper
@@ -73,16 +69,34 @@ class LasVegasMarketSpider(BaseSpider):
         if not exhibitor_data:
             raise NoExhibitorException
         exhibitor_item = self.item_loader(item=ExhibitorItem())
-        exhibitor_item.add_value("exhibitor_name", SelectJmes("companyDetails.companyName")(exhibitor_data))
-        exhibitor_item.add_value("website", SelectJmes("companyInformation.companyWebsiteUrl")(exhibitor_data))
-        exhibitor_item.add_value("email", SelectJmes("directoryContactInfo.directoryContactEmail")(exhibitor_data))
-        exhibitor_item.add_value("phone", SelectJmes("directoryContactInfo.primaryPhoneNo")(exhibitor_data))
-        exhibitor_item.add_value("fax", SelectJmes("directoryContactInfo.faxNumber")(exhibitor_data))
         exhibitor_item.add_value(
-            "booth_number", SelectJmes("companyDetails.activeLeases[].showrooms[].showroom")(exhibitor_data)
+            "exhibitor_name", SelectJmes("companyDetails.companyName")(exhibitor_data)
         )
         exhibitor_item.add_value(
-            "hall_location", SelectJmes("companyDetails.activeLeases[].showrooms[].showroomBuildingName")(exhibitor_data)
+            "website",
+            SelectJmes("companyInformation.companyWebsiteUrl")(exhibitor_data),
+        )
+        exhibitor_item.add_value(
+            "email",
+            SelectJmes("directoryContactInfo.directoryContactEmail")(exhibitor_data),
+        )
+        exhibitor_item.add_value(
+            "phone", SelectJmes("directoryContactInfo.primaryPhoneNo")(exhibitor_data)
+        )
+        exhibitor_item.add_value(
+            "fax", SelectJmes("directoryContactInfo.faxNumber")(exhibitor_data)
+        )
+        exhibitor_item.add_value(
+            "booth_number",
+            SelectJmes("companyDetails.activeLeases[].showrooms[].showroom")(
+                exhibitor_data
+            ),
+        )
+        exhibitor_item.add_value(
+            "hall_location",
+            SelectJmes(
+                "companyDetails.activeLeases[].showrooms[].showroomBuildingName"
+            )(exhibitor_data),
         )
         countries = SelectJmes("directoryContactInfo.countries")(exhibitor_data)
         country_code = SelectJmes("directoryContactInfo.country")(exhibitor_data)
@@ -91,11 +105,19 @@ class LasVegasMarketSpider(BaseSpider):
 
         exhibitor_item.add_value("address", state)
         exhibitor_item.add_value(
-            "address", SelectJmes("directoryContactInfo.[address1, address2, city]")(exhibitor_data)
+            "address",
+            SelectJmes("directoryContactInfo.[address1, address2, city]")(
+                exhibitor_data
+            ),
         )
 
-        exhibitor_item.add_value("category", SelectJmes("productCategories[].category.name")(exhibitor_data))
-        exhibitor_item.add_value("description", SelectJmes("companyInformation.completeDescription")(exhibitor_data))
+        exhibitor_item.add_value(
+            "category", SelectJmes("productCategories[].category.name")(exhibitor_data)
+        )
+        exhibitor_item.add_value(
+            "description",
+            SelectJmes("companyInformation.completeDescription")(exhibitor_data),
+        )
 
         yield exhibitor_item.load_item()
 
@@ -108,7 +130,7 @@ class LasVegasMarketSpider(BaseSpider):
                 country_state = None
                 if isinstance(states, list):
                     for state in states:
-                        if state.get("checked") == '1':
+                        if state.get("checked") == "1":
                             country_state = state.get("displayValue")
                 return country.get("displayValue"), country_state
 

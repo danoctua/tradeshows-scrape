@@ -15,9 +15,7 @@ def json_response_wrapper(method):
         try:
             response_json = json.loads(response.text)
         except json.JSONDecodeError:
-            raise JsonParsingException(
-                "Can't parse json from API: ", response.text
-            )
+            raise JsonParsingException("Can't parse json from API: ", response.text)
         else:
             kwargs["response_json"] = response_json
         return method(*args, **kwargs)

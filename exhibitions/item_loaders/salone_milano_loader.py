@@ -1,6 +1,9 @@
 from itemloaders.processors import MapCompose
 
-from exhibitions.item_loaders.base_item_loaders.base_item_loader import BaseItemLoader, join_loaded
+from exhibitions.item_loaders.base_item_loaders.base_item_loader import (
+    BaseItemLoader,
+    join_loaded,
+)
 
 
 class SaloneMilanoItemLoader(BaseItemLoader):

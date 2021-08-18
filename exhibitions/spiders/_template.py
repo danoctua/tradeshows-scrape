@@ -23,7 +23,7 @@ class TemplateSpider(BaseSpider):
     custom_settings = {
         "ITEM_PIPELINES": {
             "exhibitions.pipelines.prefetch_exhibition_data_pipeline.PrefetchExhibitionDataPipeline": 10,
-            "exhibitions.pipelines.export_item_pipeline.ExportItemPipeline": 100
+            "exhibitions.pipelines.export_item_pipeline.ExportItemPipeline": 100,
         }
     }
 
