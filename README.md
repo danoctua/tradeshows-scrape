@@ -50,5 +50,6 @@ Feel free to use it and add some docs here when you create useful pipelines/midd
 - High Point Market
 - Las Vegas Market
 - LightFair
+- National Hardware Show
 - Salone Milano
 - Super Zoo
