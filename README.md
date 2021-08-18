@@ -1,5 +1,8 @@
 # Trade Shows scrapping tool
 
+[![.github/workflows/python-app.yml](https://github.com/daniktl/tradeshows-scrape/actions/workflows/python-app.yml/badge.svg)](https://github.com/daniktl/tradeshows-scrape/actions/workflows/python-app.yml)
+
+
 Simple scrapping tool for extracting exhibitors data from the trade shows pages.
 
 Current features:
