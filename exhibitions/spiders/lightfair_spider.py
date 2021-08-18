@@ -9,12 +9,8 @@ from exhibitions.items.exhibitor import ExhibitorItem
 from exhibitions.spiders.base_spiders.base_spider import BaseSpider
 from exhibitions.utils.wrappers import json_response_wrapper
 
-EXHIBITOR_INFO_API = (
-    "https://lf2021.mapyourshow.com/8_0/exhview/exh-remote-proxy.cfm?action=getExhibitorInfo&exhID={exhibitor_id}"
-)
-EXHIBITOR_BOOTHS_API = (
-    "https://lf2021.mapyourshow.com/8_0/exhview/exh-remote-proxy.cfm?action=getExhibitorBooths&exhID={exhibitor_id}"
-)
+EXHIBITOR_INFO_API = "https://lf2021.mapyourshow.com/8_0/exhview/exh-remote-proxy.cfm?action=getExhibitorInfo&exhID={exhibitor_id}"
+EXHIBITOR_BOOTHS_API = "https://lf2021.mapyourshow.com/8_0/exhview/exh-remote-proxy.cfm?action=getExhibitorBooths&exhID={exhibitor_id}"
 
 
 class LightFairSpider(BaseSpider):
@@ -24,9 +20,7 @@ class LightFairSpider(BaseSpider):
     EXHIBITION_NAME = "Lightfair"
     EXHIBITION_WEBSITE = "https://www.lightfair.com/"
 
-    HEADERS = {
-        "X-Requested-With": "XMLHttpRequest"
-    }  # replace with headers dict
+    HEADERS = {"X-Requested-With": "XMLHttpRequest"}  # replace with headers dict
 
     item_loader = BaseItemLoader  # create new and replace with class name
 
@@ -37,7 +31,7 @@ class LightFairSpider(BaseSpider):
     custom_settings = {
         "ITEM_PIPELINES": {
             "exhibitions.pipelines.prefetch_exhibition_data_pipeline.PrefetchExhibitionDataPipeline": 10,
-            "exhibitions.pipelines.export_item_pipeline.ExportItemPipeline": 100
+            "exhibitions.pipelines.export_item_pipeline.ExportItemPipeline": 100,
         }
     }
 
@@ -49,7 +43,7 @@ class LightFairSpider(BaseSpider):
                 yield response.follow(
                     EXHIBITOR_INFO_API.format(exhibitor_id=exhibitor_id),
                     callback=self.parse_exhibitors,
-                    headers=self.HEADERS
+                    headers=self.HEADERS,
                 )
 
     @json_response_wrapper
@@ -69,7 +63,7 @@ class LightFairSpider(BaseSpider):
             EXHIBITOR_BOOTHS_API.format(exhibitor_id=exhibitor_info.get("exhid")),
             callback=self.parse_exhibitor_booths,
             headers=self.HEADERS,
-            meta={"exhibitor_item": exhibitor_item}
+            meta={"exhibitor_item": exhibitor_item},
         )
 
     @json_response_wrapper

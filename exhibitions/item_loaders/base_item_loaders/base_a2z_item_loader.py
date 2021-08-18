@@ -4,7 +4,6 @@ from exhibitions.item_loaders.base_item_loaders.base_item_loader import BaseItem
 
 
 class BaseA2ZItemLoader(BaseItemLoader):
-
     @staticmethod
     def address_in(address_lines: List[Optional[str]]):
         return " ".join(a.strip() for a in address_lines if a)

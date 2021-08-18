@@ -12,7 +12,9 @@ class BaseSpider(scrapy.Spider):
 
     def start_requests(self):
         for url in self.URLS:
-            yield scrapy.Request(url=url, headers=self.HEADERS, callback=self.fetch_exhibitors)
+            yield scrapy.Request(
+                url=url, headers=self.HEADERS, callback=self.fetch_exhibitors
+            )
 
     def parse(self, response, **kwargs):
         # not using, but needed to implement all abstract methods

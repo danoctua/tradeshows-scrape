@@ -4,9 +4,13 @@ from typing import List, Optional
 
 
 def join_loaded(list_of_attributes: List[str], separator: str = " | "):
-    return separator.join(
-        attribute.strip() for attribute in list_of_attributes if attribute
-    ) if list_of_attributes else None
+    return (
+        separator.join(
+            attribute.strip() for attribute in list_of_attributes if attribute
+        )
+        if list_of_attributes
+        else None
+    )
 
 
 class BaseItemLoader(ItemLoader):

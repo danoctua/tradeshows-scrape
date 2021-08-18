@@ -35,7 +35,7 @@ class NationalHardwareShowSpider(BaseSpider):
     custom_settings = {
         "ITEM_PIPELINES": {
             "exhibitions.pipelines.prefetch_exhibition_data_pipeline.PrefetchExhibitionDataPipeline": 10,
-            "exhibitions.pipelines.export_item_pipeline.ExportItemPipeline": 100
+            "exhibitions.pipelines.export_item_pipeline.ExportItemPipeline": 100,
         }
     }
 
@@ -46,7 +46,7 @@ class NationalHardwareShowSpider(BaseSpider):
                 method="POST",
                 body=self.FORM_POST_BODY.format(page=0),
                 headers=self.HEADERS,
-                callback=self.fetch_exhibitors
+                callback=self.fetch_exhibitors,
             )
 
     @json_response_wrapper
@@ -59,9 +59,9 @@ class NationalHardwareShowSpider(BaseSpider):
             yield response.follow(
                 url=response.url,
                 method="POST",
-                body=self.FORM_POST_BODY.format(page=page+1),
+                body=self.FORM_POST_BODY.format(page=page + 1),
                 headers=self.HEADERS,
-                callback=self.fetch_exhibitors
+                callback=self.fetch_exhibitors,
             )
 
     def parse_exhibitor(self, response: Response, exhibitor_info: Dict):
@@ -70,10 +70,15 @@ class NationalHardwareShowSpider(BaseSpider):
         exhibitor_item.add_value("exhibitor_name", exhibitor_info.get("companyName"))
         exhibitor_item.add_value(
             "brands",
-            SelectJmes("representedBrands[].value")(exhibitor_info) or SelectJmes("representedBrands")(exhibitor_info)
+            SelectJmes("representedBrands[].value")(exhibitor_info)
+            or SelectJmes("representedBrands")(exhibitor_info),
         )
         exhibitor_item.add_value("category", SelectJmes("ppsAnswers")(exhibitor_info))
-        exhibitor_item.add_value("description", SelectJmes("description.value")(exhibitor_info) or exhibitor_info.get("description"))
+        exhibitor_item.add_value(
+            "description",
+            SelectJmes("description.value")(exhibitor_info)
+            or exhibitor_info.get("description"),
+        )
         exhibitor_item.add_value("booth_number", exhibitor_info.get("standReference"))
         exhibitor_item.add_value("country", exhibitor_info.get("locale"))
         exhibitor_item.add_value("website", exhibitor_info.get("website"))

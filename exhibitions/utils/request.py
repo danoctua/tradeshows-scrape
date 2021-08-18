@@ -9,8 +9,9 @@ URL_QUERY_INDEX = 4
 
 
 class RequestWithParams(Request):
-
-    def __init__(self, params: Optional[Dict[str, Union[str, int]]] = None, *args, **kwargs):
+    def __init__(
+        self, params: Optional[Dict[str, Union[str, int]]] = None, *args, **kwargs
+    ):
         url = kwargs.get("url")
         if not url:
             raise AttributeError("Please, provide a proper URL")

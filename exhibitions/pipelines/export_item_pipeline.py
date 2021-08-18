@@ -19,7 +19,7 @@ class ExportItemPipeline:
         file_path = pathlib.Path(
             RESULTS_FOLDER,
             spider.name,
-            RESULTS_FILENAME_FORMAT.format(start_datetime=datetime.datetime.now())
+            RESULTS_FILENAME_FORMAT.format(start_datetime=datetime.datetime.now()),
         )
         file_path.parent.mkdir(exist_ok=True, parents=True)
         self.file = open(file_path, "wb")

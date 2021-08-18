@@ -21,7 +21,7 @@ class ExhibitorItem(scrapy.Item):
         "category",
         "manufacturers",
         "brands",
-        "description"
+        "description",
     ]
     # add field if you need more here
     show_name = scrapy.Field(field_name="ShowName")
