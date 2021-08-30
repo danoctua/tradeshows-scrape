@@ -14,6 +14,7 @@ def join_loaded(list_of_attributes: List[str], separator: str = " | "):
 
 
 class BaseItemLoader(ItemLoader):
+    default_input_processor = MapCompose(str.strip)
     default_output_processor = TakeFirst()
 
     exhibitor_name_in = MapCompose(str.strip)
