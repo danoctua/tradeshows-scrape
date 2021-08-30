@@ -33,8 +33,12 @@ class TemplateSpider(BaseSpider):
         exhibitors = response.xpath('//div[contains(@class, "detail")]')
         for exhibitor in exhibitors:
             exhibitor_item = self.item_loader(item=ExhibitorItem(), response=response)
-            exhibitor_item.add_value("exhibitor_name", exhibitor.xpath(".//a/text()").get())
-            booth_number, phone = exhibitor.xpath(".//div[@class='col-xs-12 col-sm-3']/text()").getall()[:2]
+            exhibitor_item.add_value(
+                "exhibitor_name", exhibitor.xpath(".//a/text()").get()
+            )
+            booth_number, phone = exhibitor.xpath(
+                ".//div[@class='col-xs-12 col-sm-3']/text()"
+            ).getall()[:2]
             exhibitor_item.add_value("booth_number", booth_number)
             exhibitor_item.add_value("phone", phone)
             yield exhibitor_item.load_item()
