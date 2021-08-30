@@ -47,12 +47,13 @@ Feel free to use it and add some docs here when you create useful pipelines/midd
 
 ## List of supported trade shows
 
-- Atlanta Gift
-- Coverings
-- Furniture
-- High Point Market
-- Las Vegas Market
-- LightFair
-- National Hardware Show
-- Salone Milano
-- Super Zoo
+* Atlanta Gift
+* Casual Market
+* Coverings
+* Furniture
+* High Point Market
+* Las Vegas Market
+* LightFair
+* National Hardware Show
+* Salone Milano
+* Super Zoo
