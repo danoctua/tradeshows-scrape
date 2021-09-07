@@ -20,9 +20,9 @@ class InterGiftSpider(BaseSpider):
 
     HEADERS = {
         "Content-Type": "application/json",
-        'Accept': '*/*',
-        'Host': 'api.swapcard.com',
-        'Referer': 'https://liveconnect.ifema.es/'
+        "Accept": "*/*",
+        "Host": "api.swapcard.com",
+        "Referer": "https://liveconnect.ifema.es/",
     }
 
     item_loader = BaseItemLoader
@@ -32,16 +32,14 @@ class InterGiftSpider(BaseSpider):
         "variables": {
             "viewId": "RXZlbnRWaWV3XzE2ODI4Mg==",
             "search": "",
-            "selectedFilters": [
-                {"mustEventFiltersIn": []}
-            ]
+            "selectedFilters": [{"mustEventFiltersIn": []}],
         },
         "extensions": {
             "persistedQuery": {
                 "version": 1,
-                "sha256Hash": "ee232939a5b943c0d87a4877655179bc2e5c73472ff99814119deddb34e0a3b6"
+                "sha256Hash": "ee232939a5b943c0d87a4877655179bc2e5c73472ff99814119deddb34e0a3b6",
             }
-        }
+        },
     }
 
     EXHIBITOR_INFO_PAYLOAD = {
@@ -49,14 +47,14 @@ class InterGiftSpider(BaseSpider):
         "variables": {
             "maxMembersToFetch": 100,
             "exhibitorId": None,
-            "eventId": "RXZlbnRfMzc1OTc4"
+            "eventId": "RXZlbnRfMzc1OTc4",
         },
         "extensions": {
             "persistedQuery": {
                 "version": 1,
-                "sha256Hash": "093a75c3786f4468a2b3b264b2c4ba00ccfa094f8b972db8ecf71cb8d2cf91ed"
+                "sha256Hash": "093a75c3786f4468a2b3b264b2c4ba00ccfa094f8b972db8ecf71cb8d2cf91ed",
             }
-        }
+        },
     }
 
     URLS = [
@@ -77,7 +75,7 @@ class InterGiftSpider(BaseSpider):
                 method="POST",
                 body=json.dumps([self.BODY_PAYLOAD]),
                 callback=self.fetch_exhibitors,
-                headers=self.HEADERS
+                headers=self.HEADERS,
             )
 
     @json_response_wrapper
@@ -91,11 +89,13 @@ class InterGiftSpider(BaseSpider):
                 method="POST",
                 body=json.dumps([payload]),
                 callback=self.parse_exhibitors,
-                headers=self.HEADERS
+                headers=self.HEADERS,
             )
             del payload
         if SelectJmes("[0].data.view.exhibitors.pageInfo.hasNextPage")(response_json):
-            end_cursor = SelectJmes("[0].data.view.exhibitors.pageInfo.endCursor")(response_json)
+            end_cursor = SelectJmes("[0].data.view.exhibitors.pageInfo.endCursor")(
+                response_json
+            )
             payload = self.BODY_PAYLOAD.copy()
             payload["variables"]["endCursor"] = end_cursor
             yield response.follow(
@@ -103,7 +103,7 @@ class InterGiftSpider(BaseSpider):
                 method="POST",
                 body=json.dumps([payload]),
                 callback=self.fetch_exhibitors,
-                headers=self.HEADERS
+                headers=self.HEADERS,
             )
             del payload
 
@@ -113,11 +113,18 @@ class InterGiftSpider(BaseSpider):
         exhibitor_json = SelectJmes("[0].data.exhibitor")(response_json)
         exhibitor.add_value("exhibitor_name", SelectJmes("name")(exhibitor_json))
         exhibitor.add_value("booth_number", SelectJmes("booth")(exhibitor_json))
-        exhibitor.add_value("address", SelectJmes("address.[state, street, zipCode]")(exhibitor_json))
+        exhibitor.add_value(
+            "address", SelectJmes("address.[state, street, zipCode]")(exhibitor_json)
+        )
         exhibitor.add_value("country", SelectJmes("address.country")(exhibitor_json))
-        exhibitor.add_value("category", SelectJmes("[0].data.productCategories[].category.name")(response_json))
+        exhibitor.add_value(
+            "category",
+            SelectJmes("[0].data.productCategories[].category.name")(response_json),
+        )
         exhibitor.add_value("description", SelectJmes("description")(exhibitor_json))
         exhibitor.add_value("website", SelectJmes("websiteUrl")(exhibitor_json))
-        exhibitor.add_value("phone", SelectJmes("phoneNumbers[0].formattedNumber")(exhibitor_json))
+        exhibitor.add_value(
+            "phone", SelectJmes("phoneNumbers[0].formattedNumber")(exhibitor_json)
+        )
         exhibitor.add_value("email", SelectJmes("email")(exhibitor_json))
         return exhibitor.load_item()
