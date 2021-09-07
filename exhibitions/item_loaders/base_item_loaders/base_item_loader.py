@@ -21,6 +21,10 @@ class BaseItemLoader(ItemLoader):
     description_in = MapCompose(str.strip)
 
     @staticmethod
+    def address_in(address_lines: List[Optional[str]]):
+        return [a for a in address_lines if a]
+
+    @staticmethod
     def address_out(address_lines: List[Optional[str]]):
         return join_loaded(address_lines, " ")
 
