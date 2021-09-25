@@ -19,13 +19,19 @@ class BaseA2ZSpider(BaseSpider):
         "ITEM_PIPELINES": {
             "exhibitions.pipelines.prefetch_exhibition_data_pipeline.PrefetchExhibitionDataPipeline": 10,
             "exhibitions.pipelines.export_item_pipeline.ExportItemPipeline": 100,
-        }
+        },
+    }
+
+    HEADERS = {
+        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.61 Safari/537.36"
     }
 
     def fetch_exhibitors(self, response: Response):
         exhibitors = response.xpath("//a[contains(@class, 'exhibitorName')]")
         for exhibitor in exhibitors:
-            yield response.follow(exhibitor, callback=self.parse_exhibitors)
+            yield response.follow(
+                exhibitor, callback=self.parse_exhibitors, headers=self.HEADERS
+            )
 
     def parse_exhibitors(self, response: Response):
         uid = re.search(r"BoothID=(\d+)", response.url)
