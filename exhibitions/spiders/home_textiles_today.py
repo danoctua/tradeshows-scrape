@@ -33,7 +33,9 @@ class HomeTextilesTodaySpider(BaseSpider):
     }
 
     def fetch_exhibitors(self, response: Response):
-        exhibitors = response.xpath('//li[contains(@class, "searchResultsListGroupItem")]')
+        exhibitors = response.xpath(
+            '//li[contains(@class, "searchResultsListGroupItem")]'
+        )
         for exhibitor in exhibitors:
             yield self.parse_exhibitor(exhibitor, response)
 
@@ -71,7 +73,7 @@ class HomeTextilesTodaySpider(BaseSpider):
         values = [value.strip() for value in values]
         try:
             key_index = values.index(key)
-            for i, item in enumerate(values[key_index+1:], start=1):
+            for i, item in enumerate(values[key_index + 1 :], start=1):
                 if item.strip():
                     return key_index + i
         except ValueError:
