@@ -2,6 +2,8 @@ import datetime
 
 from scrapy.http import Response
 
+from exhibitions.item_loaders.base_item_loaders.base_item_loader import BaseItemLoader
+from exhibitions.items.exhibitor import ExhibitorItem
 from exhibitions.spiders.base_spiders.base_spider import BaseSpider
 
 
@@ -14,7 +16,8 @@ class TemplateSpider(BaseSpider):
 
     HEADERS = {}  # replace with headers dict
 
-    item_loader = None  # create new and replace with class name
+    item_loader = BaseItemLoader
+    item = ExhibitorItem
 
     URLS = [
         "https://example.com",
