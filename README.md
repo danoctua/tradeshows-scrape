@@ -50,6 +50,7 @@ Feel free to use it and add some docs here when you create useful pipelines/midd
 - Atlanta Gift
 - Casual Market
 - Coverings
+- Ed Spaces
 - Furniture
 - InterGiftSpider
 - High Point Market
