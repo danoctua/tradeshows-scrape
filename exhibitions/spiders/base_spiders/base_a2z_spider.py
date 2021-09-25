@@ -29,7 +29,9 @@ class BaseA2ZSpider(BaseSpider):
     def fetch_exhibitors(self, response: Response):
         exhibitors = response.xpath("//a[contains(@class, 'exhibitorName')]")
         for exhibitor in exhibitors:
-            yield response.follow(exhibitor, callback=self.parse_exhibitors, headers=self.HEADERS)
+            yield response.follow(
+                exhibitor, callback=self.parse_exhibitors, headers=self.HEADERS
+            )
 
     def parse_exhibitors(self, response: Response):
         uid = re.search(r"BoothID=(\d+)", response.url)

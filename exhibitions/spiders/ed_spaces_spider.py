@@ -24,5 +24,5 @@ class EdSpacesSpider(BaseA2ZSpider):
         "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
         "Host": "edspaces.a2zinc.net",
         "Accept-Encoding": "gzip, deflate, br",
-        "Connection": "keep-alive"
+        "Connection": "keep-alive",
     }
