@@ -1,6 +1,8 @@
+from typing import List, Optional
+from w3lib.html import remove_tags
+
 from itemloaders.processors import MapCompose, TakeFirst
 from scrapy.loader import ItemLoader
-from typing import List, Optional
 
 
 def join_loaded(list_of_attributes: List[str], separator: str = " | "):
@@ -18,7 +20,7 @@ class BaseItemLoader(ItemLoader):
     default_output_processor = TakeFirst()
 
     exhibitor_name_in = MapCompose(str.strip)
-    description_in = MapCompose(str.strip)
+    description_in = MapCompose(str.strip, remove_tags)
 
     @staticmethod
     def address_in(address_lines: List[Optional[str]]):
