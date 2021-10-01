@@ -25,7 +25,7 @@ class NeoconHubSpider(BaseSpider):
         "Origin": "https://www.neoconhub.com",
         "Referer": "https://www.neoconhub.com/",
         "Accept-Encoding": "gzip, deflate, br",
-        "Accept-Language": "en-US,en;q=0.9,ru-RU;q=0.8,ru;q=0.7,pl-PL;q=0.6,pl;q=0.5"
+        "Accept-Language": "en-US,en;q=0.9,ru-RU;q=0.8,ru;q=0.7,pl-PL;q=0.6,pl;q=0.5",
     }
 
     AUTHENTICATE_URL = "https://neoconoct21.onlineeventapi.com/authenticate"
@@ -49,7 +49,10 @@ class NeoconHubSpider(BaseSpider):
     }
 
     def start_requests(self):
-        request_body = {"app_client_id": self.APP_CLIENT_ID, "app_client_secret": self.APP_CLIENT_SECRET}
+        request_body = {
+            "app_client_id": self.APP_CLIENT_ID,
+            "app_client_secret": self.APP_CLIENT_SECRET,
+        }
         # print(f"`{request_body}`", len(request_body))
         for url in self.URLS:
             yield JsonRequest(
@@ -70,16 +73,14 @@ class NeoconHubSpider(BaseSpider):
             self.EXHIBITORS_URL,
             callback=self.fetch_exhibitors,
             headers={**self.HEADERS, "x-oep-auth": f"{token_type} {access_token}"},
-            meta={'handle_httpstatus_list': [303]}
+            meta={"handle_httpstatus_list": [303]},
         )
 
     def fetch_exhibitors(self, response: TextResponse):
         if response.status == 303:
             redirect_location = response.headers.get("location", "").decode()
             yield response.follow(
-                redirect_location,
-                callback=self.parse_exhibitors,
-                meta=response.meta
+                redirect_location, callback=self.parse_exhibitors, meta=response.meta
             )
         else:
             yield self.parse_exhibitors(response)
@@ -89,21 +90,36 @@ class NeoconHubSpider(BaseSpider):
         for exhibitor_json in response_json:
             item = self.item_loader(item=self.item(), response=response)
             item.add_value("exhibitor_name", exhibitor_json.get("exhibitor_name"))
-            item.add_value("booth_number", SelectJmes("custom_attributes.Field4")(exhibitor_json))
-            item.add_value("hall_location", SelectJmes("custom_attributes.Field3")(exhibitor_json))
+            item.add_value(
+                "booth_number", SelectJmes("custom_attributes.Field4")(exhibitor_json)
+            )
+            item.add_value(
+                "hall_location", SelectJmes("custom_attributes.Field3")(exhibitor_json)
+            )
             item.add_value(
                 "address",
                 SelectJmes(
                     "company_info.address.[state_province, postal_code, address_line_one, address_line_two, address_line_three][]"
-                )(exhibitor_json)
+                )(exhibitor_json),
             )
-            item.add_value("country", SelectJmes("company_info.address.country")(exhibitor_json))
+            item.add_value(
+                "country", SelectJmes("company_info.address.country")(exhibitor_json)
+            )
             item.add_value("category", SelectJmes("industry_category")(exhibitor_json))
-            item.add_value("description", SelectJmes("exhibitor_description")(exhibitor_json))
+            item.add_value(
+                "description", SelectJmes("exhibitor_description")(exhibitor_json)
+            )
 
-            item.add_value("website", SelectJmes("company_info.website_url")(exhibitor_json))
+            item.add_value(
+                "website", SelectJmes("company_info.website_url")(exhibitor_json)
+            )
             item.add_value("email", SelectJmes("contacts[].email")(exhibitor_json))
-            item.add_value("phone", SelectJmes("company_info.[phone_number, mobile_number][]")(exhibitor_json))
+            item.add_value(
+                "phone",
+                SelectJmes("company_info.[phone_number, mobile_number][]")(
+                    exhibitor_json
+                ),
+            )
             item.add_value("fax", SelectJmes("company_info.fax_number")(exhibitor_json))
 
             yield item.load_item()
