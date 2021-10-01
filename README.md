@@ -58,5 +58,6 @@ Feel free to use it and add some docs here when you create useful pipelines/midd
 - Las Vegas Market
 - LightFair
 - National Hardware Show
+- Neocon Hub
 - Salone Milano
 - Super Zoo
