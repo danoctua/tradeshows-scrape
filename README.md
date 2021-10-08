@@ -21,7 +21,7 @@ To develop new spider you have to make the following steps:
 
 * check if spider exists for this trade show.
 * if not, create spider file in the `spiders` folder (let's keep the same convention here: `trade_show_name_spider.py`).
-  * inherit after the `BaseSpider` which for now provides `start_requests` method.
+  * inherit after the `BaseSpider` (or any existing base spider) which for now provides `start_requests` method.
   * add the following variables:
     * `name` - basic spider name that you could refer for later and that would be used to identify scrapped data.
     * `EXHIBITION_DATE`, `EXHIBITION_NAME`, `EXHIBITION_WEBSITE` - from the ticket description.
@@ -49,15 +49,16 @@ Feel free to use it and add some docs here when you create useful pipelines/midd
 
 - Atlanta Gift
 - Casual Market
-- Coverings
+- Coverings _(based on A2Z)_
 - Ed Spaces
 - Furniture
-- InterGiftSpider
+- Inter Gift
 - High Point Market
 - Home Textiles Today
 - Las Vegas Market
-- LightFair
+- Light Fair _(based on Map Your Show)_
 - National Hardware Show
 - Neocon Hub
+- Pool Spa Patio Expo _(based on Map Your Show)_
 - Salone Milano
-- Super Zoo
+- Super Zoo _(based on A2Z)_
