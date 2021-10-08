@@ -1,5 +1,7 @@
 import datetime
-from exhibitions.spiders.base_spiders.base_map_your_show_spider import BaseMapYourShowSpider
+from exhibitions.spiders.base_spiders.base_map_your_show_spider import (
+    BaseMapYourShowSpider,
+)
 
 
 class LightFairSpider(BaseMapYourShowSpider):

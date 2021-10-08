@@ -37,7 +37,7 @@ class BaseMapYourShowSpider(BaseSpider):
         yield scrapy.Request(
             url=EXHIBITORS_LIST_API.format(exhibition_code=self.EXHIBITION_CODE),
             headers=self.HEADERS,
-            callback=self.fetch_exhibitors
+            callback=self.fetch_exhibitors,
         )
 
     @json_response_wrapper
@@ -46,7 +46,9 @@ class BaseMapYourShowSpider(BaseSpider):
             exhibitor_id = exhibitor_data.get("fieldvalue")
             if exhibitor_id:
                 yield response.follow(
-                    EXHIBITOR_INFO_API.format(exhibitor_id=exhibitor_id, exhibition_code=self.EXHIBITION_CODE),
+                    EXHIBITOR_INFO_API.format(
+                        exhibitor_id=exhibitor_id, exhibition_code=self.EXHIBITION_CODE
+                    ),
                     callback=self.parse_exhibitors,
                     headers=self.HEADERS,
                 )
@@ -65,7 +67,10 @@ class BaseMapYourShowSpider(BaseSpider):
             exhibitor_item.add_value("address", exhibitor_info.get(key))
         exhibitor_item.add_value("description", exhibitor_info.get("description"))
         yield response.follow(
-            EXHIBITOR_BOOTHS_API.format(exhibitor_id=exhibitor_info.get("exhid"), exhibition_code=self.EXHIBITION_CODE),
+            EXHIBITOR_BOOTHS_API.format(
+                exhibitor_id=exhibitor_info.get("exhid"),
+                exhibition_code=self.EXHIBITION_CODE,
+            ),
             callback=self.parse_exhibitor_booths,
             headers=self.HEADERS,
             meta={"exhibitor_item": exhibitor_item},
