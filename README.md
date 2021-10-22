@@ -48,6 +48,7 @@ Feel free to use it and add some docs here when you create useful pipelines/midd
 ## List of supported trade shows
 
 - Atlanta Gift
+- BDNY _(based on A2Z)_
 - Casual Market
 - Coverings _(based on A2Z)_
 - Ed Spaces
