@@ -21,5 +21,5 @@ class BDNYSpider(BaseA2ZSpider):
         "Host": "boutique.a2zinc.net",
         "Accept-Encoding": "gzip, deflate, br",
         "Connection": "keep-alive",
-        "Sec-GPC": 1
+        "Sec-GPC": 1,
     }
