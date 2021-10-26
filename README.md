@@ -52,6 +52,7 @@ Feel free to use it and add some docs here when you create useful pipelines/midd
 - Casual Market
 - Coverings _(based on A2Z)_
 - Ed Spaces
+- Feria del mueble Yecla
 - Furniture
 - Inter Gift
 - High Point Market
