@@ -33,9 +33,7 @@ class FeriaYeclaSpider(BaseSpider):
     def fetch_exhibitors(self, response: Response):
         exhibitors = response.xpath('//h5/a[@itemprop="url"]/@href')
         yield from response.follow_all(
-            exhibitors,
-            callback=self.parse_exhibitors,
-            headers=self.HEADERS
+            exhibitors, callback=self.parse_exhibitors, headers=self.HEADERS
         )
 
     def parse_exhibitors(self, response: Response):
@@ -46,23 +44,23 @@ class FeriaYeclaSpider(BaseSpider):
         exhibitor_item.add_value("exhibitor_name", exhibitor_name)
         exhibitor_item.add_xpath(
             "booth_number",
-            '//img[contains(@src, "stand")]/parent::div/following-sibling::div//p/text()'
+            '//img[contains(@src, "stand")]/parent::div/following-sibling::div//p/text()',
         )
         exhibitor_item.add_xpath(
             "booth_number",
-            '//img[contains(@src, "stand")]/parent::noscript/parent::div/following-sibling::div//p/text()'
+            '//img[contains(@src, "stand")]/parent::noscript/parent::div/following-sibling::div//p/text()',
         )
         exhibitor_item.add_xpath(
             "category",
-            '//img[contains(@src, "icono-expositores.png")]/parent::noscript/parent::div/following-sibling::div//p/text()'
+            '//img[contains(@src, "icono-expositores.png")]/parent::noscript/parent::div/following-sibling::div//p/text()',
         )
         exhibitor_item.add_xpath(
             "email",
-            '//img[contains(@src, "contacto")]/parent::noscript/parent::div/following-sibling::div//p/text()'
+            '//img[contains(@src, "contacto")]/parent::noscript/parent::div/following-sibling::div//p/text()',
         )
         exhibitor_item.add_value("description", exhibitor_name)
         exhibitor_item.add_xpath(
             "description",
-            '//div[contains(@class, "wpb_content_element")]//p[//*[not(name()="noscript")]]/text()'
+            '//div[contains(@class, "wpb_content_element")]//p[//*[not(name()="noscript")]]/text()',
         )
         yield exhibitor_item.load_item()
