@@ -1,7 +1,7 @@
 from typing import List, Optional
 from w3lib.html import remove_tags
 
-from itemloaders.processors import MapCompose, TakeFirst
+from itemloaders.processors import MapCompose, TakeFirst, Join
 from scrapy.loader import ItemLoader
 
 
@@ -21,15 +21,11 @@ class BaseItemLoader(ItemLoader):
 
     exhibitor_name_in = MapCompose(str.strip)
     description_in = MapCompose(str.strip, remove_tags)
+    manufacturers_out = Join(" | ")
+    brands_out = Join(" | ")
+    category_out = Join(" | ")
+    address_out = Join(" ")
 
     @staticmethod
     def address_in(address_lines: List[Optional[str]]):
-        return [a for a in address_lines if a]
-
-    @staticmethod
-    def address_out(address_lines: List[Optional[str]]):
-        return join_loaded(address_lines, " ")
-
-    @staticmethod
-    def category_out(categories: List[Optional[str]]):
-        return join_loaded(categories, " | ")
+        return [a.strip() for a in address_lines if isinstance(a, str)]
