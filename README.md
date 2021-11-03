@@ -31,9 +31,16 @@ To develop new spider you have to make the following steps:
     * `fetch_exhibitors` - callback for initial urls. Select exhibitors here and add callback to the next method.
     * `parse_exhibitors` - extract exhibitor data and `yield` the `Exhibitor` item from this method.
 
-Currently available pipelines (please add a simple documentation when you're creating new one):
+### Pipelines
+Currently, available pipelines (please add a simple documentation when you're creating new one):
 * `PrefetchExhibitionDataPipeline` - pipeline which insert exhibition data you've provided as spider attribute.
 * `ExportItemPipeline` - exports item to the CSV file.
+
+### Middlewares
+Available middlewares:
+* `ProxyDownloaderMiddleware` - middleware to set proxy for spider requests. 
+  Remember to set the `PROXY` attribute for spider if you're using this middleware. 
+  See middleware documentation and usages for more details.
 
 ## Running
 
@@ -59,6 +66,7 @@ Feel free to use it and add some docs here when you create useful pipelines/midd
 - Home Textiles Today
 - Las Vegas Market
 - Light Fair _(based on Map Your Show)_
+- Lmm Cologne 
 - National Hardware Show
 - Neocon Hub
 - Pool Spa Patio Expo _(based on Map Your Show)_
