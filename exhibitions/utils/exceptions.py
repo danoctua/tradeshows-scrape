@@ -4,3 +4,7 @@ class NoExhibitorException(Exception):
 
 class JsonParsingException(Exception):
     pass
+
+
+class SecretDoesntExistException(Exception):
+    pass
