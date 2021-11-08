@@ -1,7 +1,8 @@
 import datetime
 import json
-import warnings
+from urllib.parse import urlencode
 
+from scrapy import Request
 from scrapy.http import Response
 from itemloaders.processors import SelectJmes
 
@@ -12,6 +13,7 @@ from exhibitions.utils.exceptions import NoExhibitorException
 from exhibitions.utils.wrappers import json_response_wrapper
 
 API_KEY = "391D75C6-01EE-463C-8B51-47B2748F8ACD"
+SEARCH_PAGE = "b20c0e90-484d-4848-8ea6-bc3b2bcc391f"
 
 EXHIBITOR_INFO_API = "https://www.atlantamarket.com/imc-api/v2/exhibitors/OpenDetails?sc_apikey={API_KEY}&exhibitorIds={exhibitor_id}"
 MAX_NUMBER_OF_EXHIBITORS = 2000
@@ -26,8 +28,8 @@ class AtlantaGiftSpider(BaseSpider):
 
     name = "AtlantaGiftSpider"
 
-    EXHIBITION_DATE = datetime.date(2021, 7, 14)
-    EXHIBITION_NAME = "Atlanta Gift - Summer"
+    EXHIBITION_DATE = datetime.date(2022, 1, 11)
+    EXHIBITION_NAME = "Atlanta Gift"
     EXHIBITION_WEBSITE = "https://atlantamarket.com/"
 
     HEADERS = {
@@ -43,10 +45,26 @@ class AtlantaGiftSpider(BaseSpider):
 
     item_loader = AtlantaGiftItemLoader
 
-    URLS = [
-        f"https://www.atlantamarket.com/imc-api/v2/exhibitors/search?"
-        f"sc_apikey={API_KEY}&term=all&type=exhibitorline&page=1&pageSize={MAX_NUMBER_OF_EXHIBITORS}",
+    QUERY_PARAMS = [
+        {
+            "sc_apikey": API_KEY,
+            "page": 1,
+            "pageSize": MAX_NUMBER_OF_EXHIBITORS,
+            "searchPage": SEARCH_PAGE,
+            "f:Product Categories": "256|257|259|37|148|135|149|150|151|152|139|147|145|36|243|244|245|246|247|253|251|34|236|237|238|240|33|264|267|228|278|231|325|229|230|29|372|375|377|302|385|389|390|391|393|396|28|374|373|378|379|380|300|304|388|392|394|397|398|15|211|212|362|216|356|370|359|364|354|355|361|371|367|366|360|357|219|218|368|369|27|194|197|198|196|199|200|202|24|265|266|174|285|179|288|291|292|320|332|336|22|203|270|204|205|206|185|207|208|209|328|210|21|401|340|303|188|189|190|339|338|19|346|290|324|295|347|315|345|165|316|400|329|335|403|16|402|9|92|93|94|279|280|95|84|293|97|98|99|101|103|104|105|106|12|108|109|141|142|134|136|137|91|143|144|112|10|83|23|258|268|120|121|122|123|126|127|128|130|5|406|75|6|51|20|59|30|32|26|73",
+        },
+        {
+            "sc_apikey": API_KEY,
+            "page": 1,
+            "pageSize": MAX_NUMBER_OF_EXHIBITORS,
+            "searchPage": SEARCH_PAGE,
+            "f:Product Categories": "86|38",
+        },
     ]
+
+    EXHIBITORS_LIST_URL = "https://www.atlantamarket.com/imc-api/v2/exhibitors/search"
+
+    URLS = []
 
     custom_settings = {
         "ITEM_PIPELINES": {
@@ -54,6 +72,14 @@ class AtlantaGiftSpider(BaseSpider):
             "exhibitions.pipelines.export_item_pipeline.ExportItemPipeline": 100,
         }
     }
+
+    def start_requests(self):
+        for query_params in self.QUERY_PARAMS:
+            yield Request(
+                url=f"{self.EXHIBITORS_LIST_URL}?{urlencode(query_params)}",
+                callback=self.fetch_exhibitors,
+                headers=self.HEADERS,
+            )
 
     @json_response_wrapper
     def fetch_exhibitors(self, response: Response, response_json: json):
@@ -87,7 +113,8 @@ class AtlantaGiftSpider(BaseSpider):
             "hall_location",
             SelectJmes(
                 "companyDetails.activeLeases[].showrooms[].showroomBuildingName"
-            )(item_json),
+            )(item_json)
+            or "",
         )
 
         item.add_value(
@@ -125,8 +152,12 @@ class AtlantaGiftSpider(BaseSpider):
         item.add_value(
             "email",
             [
-                SelectJmes(f"directoryContactInfo.companyEmail{i}")(item_json)
-                for i in range(1, 3)
+                x
+                for x in [
+                    SelectJmes(f"directoryContactInfo.companyEmail{i}")(item_json)
+                    for i in range(1, 3)
+                ]
+                if x
             ],
         )
         item.add_value(
