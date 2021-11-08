@@ -62,6 +62,7 @@ Feel free to use it and add some docs here when you create useful pipelines/midd
 - Feria del mueble Yecla
 - Furniture
 - Inter Gift
+- Heimtextil
 - High Point Market
 - Home Textiles Today
 - Las Vegas Market
