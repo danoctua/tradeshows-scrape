@@ -68,6 +68,7 @@ Feel free to use it and add some docs here when you create useful pipelines/midd
 - Las Vegas Market
 - Light Fair _(based on Map Your Show)_
 - Lmm Cologne 
+- Made in Canada
 - National Hardware Show
 - Neocon Hub
 - Pool Spa Patio Expo _(based on Map Your Show)_
