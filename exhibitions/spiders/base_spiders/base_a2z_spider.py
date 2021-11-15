@@ -58,7 +58,7 @@ class BaseA2ZSpider(BaseSpider):
             "brands",
             '//*[@id="eboothContainer"]//p[not(@id) and @class="BoothBrands"]/text()',
         )
-        item.add_xpath("category", '//li[@class="ProductCategoryLi"]/a/text()')
+        item.add_xpath("category", '//li[@class="ProductCategoryLi"]//text()')
 
         booth_number = response.xpath(
             '//*[@id="eboothContainer"]/ul/li[1]/text()'
