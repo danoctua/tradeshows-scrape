@@ -27,7 +27,7 @@ class DomotexSpider(BaseSpider):
         "Content-Type": "application/x-www-form-urlencoded",
         "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36",
         "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
-        "Sec-GPC": 1
+        "Sec-GPC": 1,
     }
 
     item_loader = DomotexItemLoader
@@ -50,15 +50,13 @@ class DomotexSpider(BaseSpider):
             "action": f'{{"action":"page","value":"{page_number}"}}',
             "category": "ep",
             "state": page_state,
-            "search": ""
+            "search": "",
         }
 
     def start_requests(self):
         for url in self.URLS:
             yield scrapy.Request(
-                url=url,
-                callback=self.fetch_exhibitors,
-                headers=self.HEADERS
+                url=url, callback=self.fetch_exhibitors, headers=self.HEADERS
             )
 
     def fetch_exhibitors(self, response: Response):
@@ -67,9 +65,7 @@ class DomotexSpider(BaseSpider):
         ).getall()
         for exhibitor_url in exhibitors:
             yield response.follow(
-                url=exhibitor_url,
-                callback=self.parse_exhibitors,
-                headers=self.HEADERS
+                url=exhibitor_url, callback=self.parse_exhibitors, headers=self.HEADERS
             )
         if not exhibitors:
             with open("dnt.html", "w") as f:
@@ -85,7 +81,7 @@ class DomotexSpider(BaseSpider):
                 method="POST",
                 formdata=self.get_post_data(next_page, page_state),
                 headers=self.HEADERS,
-                callback=self.fetch_exhibitors
+                callback=self.fetch_exhibitors,
             )
 
     def parse_exhibitors(self, response: Response):
@@ -93,7 +89,7 @@ class DomotexSpider(BaseSpider):
         exhibitor_item = self.item_loader(self.item(), response)
         exhibitor_item.add_xpath(
             "exhibitor_name",
-            "//c-page-intro//template[@slot='headline']//h1[contains(@class, 'as-headline')]/text()"
+            "//c-page-intro//template[@slot='headline']//h1[contains(@class, 'as-headline')]/text()",
         )
         location = response.xpath(
             "//c-page-intro//template[@slot='description']//div[contains(@class, 'cell')]//*[@class='as-content']//span[contains(./text(), Hall)]"
@@ -103,21 +99,30 @@ class DomotexSpider(BaseSpider):
             exhibitor_item.add_value("booth_number", location_search.group("stand"))
             exhibitor_item.add_value("hall_location", location_search.group("hall"))
 
-        exhibitor_item.add_xpath(
-            "description",
-            "//c-detail-profil//p/text()"
+        exhibitor_item.add_xpath("description", "//c-detail-profil//p/text()")
+        contact_container = response.xpath(
+            "//c-navigation-tabs-dynamic//*[contains(@class, 'contact-container')]/div"
         )
-        contact_container = response.xpath("//c-navigation-tabs-dynamic//*[contains(@class, 'contact-container')]/div")
-        exhibitor_item.add_value("address", contact_container.xpath("./div[1]//ul/li/text()").getall())
-        exhibitor_item.add_value("country", contact_container.xpath("./div[1]//ul/li/text()").getall())
-        exhibitor_item.add_value("website", contact_container.xpath("./div[1]//a/@href").get())
+        exhibitor_item.add_value(
+            "address", contact_container.xpath("./div[1]//ul/li/text()").getall()
+        )
+        exhibitor_item.add_value(
+            "country", contact_container.xpath("./div[1]//ul/li/text()").getall()
+        )
+        exhibitor_item.add_value(
+            "website", contact_container.xpath("./div[1]//a/@href").get()
+        )
         exhibitor_item.add_value(
             "phone",
-            contact_container.xpath("./div[2]//ul/li[contains(text(), 'Phone')]/text()").re_first(PHONE_REGEX)
+            contact_container.xpath(
+                "./div[2]//ul/li[contains(text(), 'Phone')]/text()"
+            ).re_first(PHONE_REGEX),
         )
         exhibitor_item.add_value(
             "fax",
-            contact_container.xpath("./div[2]//ul/li[contains(text(), 'Fax')]/text()").re_first(FAX_REGEX)
+            contact_container.xpath(
+                "./div[2]//ul/li[contains(text(), 'Fax')]/text()"
+            ).re_first(FAX_REGEX),
         )
 
         return exhibitor_item.load_item()
