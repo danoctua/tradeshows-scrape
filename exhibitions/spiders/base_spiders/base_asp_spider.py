@@ -1,7 +1,9 @@
 from scrapy.http import Response
 
 from exhibitions.spiders.base_spiders.base_spider import BaseSpider
-from exhibitions.item_loaders.base_item_loaders.base_asp_item_loader import BaseASPItemLoader
+from exhibitions.item_loaders.base_item_loaders.base_asp_item_loader import (
+    BaseASPItemLoader,
+)
 from exhibitions.items.exhibitor import ExhibitorItem
 
 

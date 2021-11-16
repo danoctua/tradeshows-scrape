@@ -16,7 +16,6 @@ class HomeBuildingRenovationSpider(BaseASPSpider):
     EXHIBITION_NAME = "Homebuilding & Renovation Show"
     EXHIBITION_WEBSITE = "https://farnborough.homebuildingshow.co.uk/"
 
-
     URLS = [
         "https://farnborough.homebuildingshow.co.uk/exhibitor-list",
     ]
@@ -31,5 +30,5 @@ class HomeBuildingRenovationSpider(BaseASPSpider):
                 yield response.follow(
                     url=exhibitor_url_search.group("url"),
                     callback=self.parse_exhibitors,
-                    headers=self.HEADERS
+                    headers=self.HEADERS,
                 )
