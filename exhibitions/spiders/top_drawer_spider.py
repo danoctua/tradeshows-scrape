@@ -36,37 +36,44 @@ class TopDrawerSpider(BaseSpider):
         ).getall()
         for exhibitor_url in exhibitors:
             yield response.follow(
-                url=exhibitor_url,
-                callback=self.parse_exhibitors,
-                headers=self.HEADERS
+                url=exhibitor_url, callback=self.parse_exhibitors, headers=self.HEADERS
             )
         next_page = response.xpath(
             "//a[@class='pagination__list__item__link pagination__list__item__link--next']/@href"
         ).get()
         if next_page:
             yield response.follow(
-                url=next_page,
-                callback=self.fetch_exhibitors,
-                headers=self.HEADERS
+                url=next_page, callback=self.fetch_exhibitors, headers=self.HEADERS
             )
 
     def parse_exhibitors(self, response: Response):
         exhibitor_item = self.item_loader(self.item(), response)
-        exhibitor_item.add_xpath("exhibitor_name", "//*[@class='m-exhibitor-entry__item__header__title']/text()")
-        exhibitor_item.add_xpath("booth_number", "//*[@class='m-exhibitor-entry__item__header__stand']/text()")
-        exhibitor_item.add_xpath("address", "//*[@class='m-exhibitor-entry__item__body__contacts__address']/text()")
-        exhibitor_item.add_xpath("country", "//*[@class='m-exhibitor-entry__item__body__contacts__address']/text()")
+        exhibitor_item.add_xpath(
+            "exhibitor_name",
+            "//*[@class='m-exhibitor-entry__item__header__title']/text()",
+        )
+        exhibitor_item.add_xpath(
+            "booth_number",
+            "//*[@class='m-exhibitor-entry__item__header__stand']/text()",
+        )
+        exhibitor_item.add_xpath(
+            "address",
+            "//*[@class='m-exhibitor-entry__item__body__contacts__address']/text()",
+        )
+        exhibitor_item.add_xpath(
+            "country",
+            "//*[@class='m-exhibitor-entry__item__body__contacts__address']/text()",
+        )
         exhibitor_item.add_xpath(
             "website",
-            "//*[@class='m-exhibitor-entry__item__body__contacts__additional__website']/*[contains(text(), 'Website')]/following-sibling::a/@href"
-
+            "//*[@class='m-exhibitor-entry__item__body__contacts__additional__website']/*[contains(text(), 'Website')]/following-sibling::a/@href",
         )
         exhibitor_item.add_xpath(
             "description",
-            "//*[@class='m-exhibitor-entry__item__body__description__profile']/p//text()"
+            "//*[@class='m-exhibitor-entry__item__body__description__profile']/p//text()",
         )
         exhibitor_item.add_xpath(
             "category",
-            "//*[contains(@class, 'm-libraries-products-list__items__item__header__title__link')]/text()"
+            "//*[contains(@class, 'm-libraries-products-list__items__item__header__title__link')]/text()",
         )
         yield exhibitor_item.load_item()
