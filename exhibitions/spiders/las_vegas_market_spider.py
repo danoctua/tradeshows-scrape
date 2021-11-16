@@ -15,8 +15,8 @@ from exhibitions.utils.exceptions import NoExhibitorException
 class LasVegasMarketSpider(BaseSpider):
     name = "LasVegasMarketSpider"
 
-    EXHIBITION_DATE = datetime.date(2021, 8, 22)
-    EXHIBITION_NAME = "Las Vegas Market - Summer"
+    EXHIBITION_DATE = datetime.date(2022, 1, 23)
+    EXHIBITION_NAME = "Las Vegas Market - Winter"
     EXHIBITION_WEBSITE = "https://www.lasvegasmarket.com/"
 
     HEADERS = {
@@ -26,7 +26,7 @@ class LasVegasMarketSpider(BaseSpider):
 
     item_loader = LasVegasMarketItemLoader
 
-    PAGE_SIZE = 50
+    PAGE_SIZE = 12
     API_KEY = "391D75C6-01EE-463C-8B51-47B2748F8ACD"
 
     URLS = [
