@@ -9,7 +9,7 @@ from exhibitions.item_loaders.base_item_loaders.base_item_loader import (
 BOOTH_NUMBER_REGEX = re.compile(r"Stand: (?P<booth_number>[^\r\n]*)")
 
 
-class TopDrawerItemLoader(BaseItemLoader):
+class BaseASPItemLoader(BaseItemLoader):
 
     description_out = Join(" ")
 
