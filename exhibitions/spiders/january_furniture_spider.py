@@ -18,27 +18,16 @@ class JanuaryFurnitureSpider(BaseSpider):
     EXHIBITION_NAME = "January Furniture Show"
     EXHIBITION_WEBSITE = "https://januaryfurnitureshow.com"
 
-    HEADERS = {
-        "Accept": "*/*",
-        "X-Requested-With": "XMLHttpRequest",
-        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36",
-        "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
-        "Sec-GPC": 1,
-        "Host": "januaryfurnitureshow.com",
-        "Accept-Encoding": "gzip, deflate, br",
-        "Connection": "keep-alive",
-        "Origin": "https://januaryfurnitureshow.com",
-        "Referer": "https://januaryfurnitureshow.com/search/exhibitors?"
-    }
+    HEADERS = {}
 
     item_loader = BaseItemLoader
     item = ExhibitorItem
 
-    current_page: int = 0
+    current_page: int = 1
 
-    URLS = [
-        "https://januaryfurnitureshow.com/search/exhibitors",
-    ]
+    MAIN_URL = "https://januaryfurnitureshow.com/search/exhibitors"
+
+    URLS = [MAIN_URL]
 
     custom_settings = {
         "ITEM_PIPELINES": {
@@ -47,70 +36,47 @@ class JanuaryFurnitureSpider(BaseSpider):
         },
     }
 
-    @staticmethod
-    def get_post_data(page_number: int) -> dict:
-        return {
-            "page": str(page_number),
-            "qWhich": "exhibitors",
-            "sTab": "all",
-            "sort": "name",
-            "q": "",
-            "qFromPage": "",
-            "letter": 0,
-            "descr": "auto",
-            "hall": "",
-            "ecats": "",
-            "cfilters": "",
-            "tag": "",
-            "country": "",
-            "bcat": "",
-            "business_area": "",
-            "activity": "",
-            "isnew": "off",
-            "productLaunch": "off",
-            "grid": 4
-        }
-
-    def start_requests(self):
-        post_data = self.get_post_data(1)
-        print(len(json.dumps(post_data)))
-        for url in self.URLS:
-            yield scrapy.FormRequest(
-                url=url,
-                formdata=post_data,
-                headers=self.HEADERS,
-                callback=self.fetch_exhibitors
-            )
-
     def fetch_exhibitors(self, response: TextResponse):
+        print(response.request.headers)
         with open("dnt.html", "w") as f:
             f.write(response.text)
-        response_json = response.json()
-        result = response_json.get("result")
-        pages = response_json.get("pages")
-        if pages <= self.current_page:
-            selector = scrapy.Selector(text=result, type="html")
-            exhibitors = selector.xpath("//a[contains(@class, 'exhcard__img-link')]/@href").getall()
+        exhibitors = response.xpath(
+            "//a[contains(@class, 'exhcard__img-link')]/@href"
+        ).getall()
+        if exhibitors:
             for exhibitor_url in exhibitors:
-                yield scrapy.Request(
-                    url=exhibitor_url,
-                    callback=self.parse_exhibitors
-                )
+                yield response.follow(url=exhibitor_url, callback=self.parse_exhibitors)
+            self.current_page += 1
+            yield response.follow(
+                url=f"{self.MAIN_URL}?page={self.current_page}",
+                callback=self.fetch_exhibitors,
+            )
 
     def parse_exhibitors(self, response: Response):
         exhibitor_item = self.item_loader(self.item(), response)
-        exhibitor_item.add_xpath("exhibitor_name", "//*[@class='expo-container']//*[@class='prodmodal__info-title']")
-        exhibitor_item.add_xpath("country", "//*[@class='expo-container']//*[@class='prodmodal__info-location']")
+        exhibitor_item.add_xpath(
+            "exhibitor_name",
+            "//*[@class='expo-container']//*[@class='prodmodal__info-title']/text()",
+        )
+        address = response.xpath(
+            "//*[@class='expo-container']//*[@class='prodmodal__info-location']/text()"
+        ).get()
+        if address:
+            exhibitor_item.add_value("address", address)
+            exhibitor_item.add_value("country", address.split(",")[-1].strip())
         exhibitor_item.add_xpath(
             "hall_location",
-            "//*[@class='expo-container']//*[@class='prodmodal__info-details-item prodmodal__info-details-item_hall-stand']/span[contains(text(), 'Hall')]//following-sibling::*[1]"
+            "//*[@class='expo-container']//*[@class='prodmodal__info-details-item prodmodal__info-details-item_hall-stand']/span[contains(text(), 'Hall')]//following-sibling::*[1]/text()",
         )
         exhibitor_item.add_xpath(
             "booth_number",
-            "//*[@class='expo-container']//*[@class='prodmodal__info-details-item prodmodal__info-details-item_hall-stand']/span[contains(text(), 'Stand')]//following-sibling::*[1]"
+            "//*[@class='expo-container']//*[@class='prodmodal__info-details-item prodmodal__info-details-item_hall-stand']/span[contains(text(), 'Stand')]//following-sibling::*[1]/text()",
         )
         exhibitor_item.add_xpath(
             "website",
-            "//*[@class='expo-container']//*[@class='prodmodal__info-site']/a/@href"
+            "//*[@class='expo-container']//*[@class='prodmodal__info-site']/a/@href",
+        )
+        exhibitor_item.add_xpath(
+            "description", "//div[contains(@class, 'about-description')]//p//text()"
         )
         yield exhibitor_item.load_item()
