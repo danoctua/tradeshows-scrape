@@ -57,7 +57,9 @@ class BaseMapYourShowSpider(BaseSpider):
     def parse_exhibitors(self, response: TextResponse):
         response_json = response.json()
         exhibitor_item = self.item_loader(item=ExhibitorItem(), response=response)
-        exhibitor_item.add_value("exhibitor_name", SelectJmes("[].exhname")(response_json))
+        exhibitor_item.add_value(
+            "exhibitor_name", SelectJmes("[].exhname")(response_json)
+        )
         exhibitor_item.add_value("website", SelectJmes("[].url")(response_json))
         exhibitor_item.add_value("email", SelectJmes("[].email")(response_json))
         exhibitor_item.add_value("phone", SelectJmes("[].phone")(response_json))
@@ -65,7 +67,9 @@ class BaseMapYourShowSpider(BaseSpider):
         exhibitor_item.add_value("country", SelectJmes("[].country")(response_json))
         for key in ["state", "city", "address1"]:
             exhibitor_item.add_value("address", SelectJmes(f"[].{key}")(response_json))
-        exhibitor_item.add_value("description", SelectJmes("[].description")(response_json))
+        exhibitor_item.add_value(
+            "description", SelectJmes("[].description")(response_json)
+        )
         yield response.follow(
             EXHIBITOR_BOOTHS_API.format(
                 exhibitor_id=SelectJmes("[0].exhid")(response_json),
@@ -80,9 +84,10 @@ class BaseMapYourShowSpider(BaseSpider):
     def parse_exhibitor_booths(response: TextResponse):
         exhibitor_item = response.meta["exhibitor_item"]
         response_json = response.json()
-        if response_json:
-            exhibitor_info = response_json[0]
-            exhibitor_item.add_value("booth_number", exhibitor_info.get("boothdisplay"))
-            exhibitor_item.add_value("hall_location", exhibitor_info.get("halldisplay"))
-
+        exhibitor_item.add_value(
+            "booth_number", SelectJmes("[].boothdisplay")(response_json)
+        )
+        exhibitor_item.add_value(
+            "hall_location", SelectJmes("[].halldisplay")(response_json)
+        )
         yield exhibitor_item.load_item()
