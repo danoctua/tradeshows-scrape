@@ -1,6 +1,9 @@
 import scrapy
 from typing import Dict, List, Optional, Union
 
+from exhibitions.item_loaders.base_item_loaders.base_item_loader import BaseItemLoader
+from exhibitions.items.exhibitor import ExhibitorItem
+
 
 class BaseSpider(scrapy.Spider):
 
@@ -9,6 +12,9 @@ class BaseSpider(scrapy.Spider):
     HEADERS: Dict[str, Union[str, int, bool]] = {}  # request headers
 
     ONLY_FIELDS: Optional[tuple] = None  # fields to export
+
+    item_loader = BaseItemLoader
+    item = ExhibitorItem
 
     def start_requests(self):
         for url in self.URLS:
