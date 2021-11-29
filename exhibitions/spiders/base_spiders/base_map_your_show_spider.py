@@ -1,7 +1,8 @@
 from typing import Dict, List
 
 import scrapy
-from scrapy.http import Response
+from itemloaders.processors import SelectJmes
+from scrapy.http import Response, TextResponse
 
 from exhibitions.item_loaders.base_item_loaders.base_item_loader import BaseItemLoader
 from exhibitions.items.exhibitor import ExhibitorItem
@@ -53,22 +54,25 @@ class BaseMapYourShowSpider(BaseSpider):
                     headers=self.HEADERS,
                 )
 
-    @json_response_wrapper
-    def parse_exhibitors(self, response: Response, response_json: List[Dict]):
+    def parse_exhibitors(self, response: TextResponse):
+        response_json = response.json()
         exhibitor_item = self.item_loader(item=ExhibitorItem(), response=response)
-        exhibitor_info = response_json[0]
-        exhibitor_item.add_value("exhibitor_name", exhibitor_info.get("exhname"))
-        exhibitor_item.add_value("website", exhibitor_info.get("url"))
-        exhibitor_item.add_value("email", exhibitor_info.get("email"))
-        exhibitor_item.add_value("phone", exhibitor_info.get("phone"))
-        exhibitor_item.add_value("fax", exhibitor_info.get("fax"))
-        exhibitor_item.add_value("country", exhibitor_info.get("country"))
+        exhibitor_item.add_value(
+            "exhibitor_name", SelectJmes("[].exhname")(response_json)
+        )
+        exhibitor_item.add_value("website", SelectJmes("[].url")(response_json))
+        exhibitor_item.add_value("email", SelectJmes("[].email")(response_json))
+        exhibitor_item.add_value("phone", SelectJmes("[].phone")(response_json))
+        exhibitor_item.add_value("fax", SelectJmes("[].fax")(response_json))
+        exhibitor_item.add_value("country", SelectJmes("[].country")(response_json))
         for key in ["state", "city", "address1"]:
-            exhibitor_item.add_value("address", exhibitor_info.get(key))
-        exhibitor_item.add_value("description", exhibitor_info.get("description"))
+            exhibitor_item.add_value("address", SelectJmes(f"[].{key}")(response_json))
+        exhibitor_item.add_value(
+            "description", SelectJmes("[].description")(response_json)
+        )
         yield response.follow(
             EXHIBITOR_BOOTHS_API.format(
-                exhibitor_id=exhibitor_info.get("exhid"),
+                exhibitor_id=SelectJmes("[0].exhid")(response_json),
                 exhibition_code=self.EXHIBITION_CODE,
             ),
             callback=self.parse_exhibitor_booths,
@@ -76,10 +80,14 @@ class BaseMapYourShowSpider(BaseSpider):
             meta={"exhibitor_item": exhibitor_item},
         )
 
-    @json_response_wrapper
-    def parse_exhibitor_booths(self, response: Response, response_json: List[Dict]):
+    @staticmethod
+    def parse_exhibitor_booths(response: TextResponse):
         exhibitor_item = response.meta["exhibitor_item"]
-        exhibitor_info = response_json[0]
-        exhibitor_item.add_value("booth_number", exhibitor_info.get("boothdisplay"))
-        exhibitor_item.add_value("hall_location", exhibitor_info.get("halldisplay"))
+        response_json = response.json()
+        exhibitor_item.add_value(
+            "booth_number", SelectJmes("[].boothdisplay")(response_json)
+        )
+        exhibitor_item.add_value(
+            "hall_location", SelectJmes("[].halldisplay")(response_json)
+        )
         yield exhibitor_item.load_item()
