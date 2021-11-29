@@ -1,9 +1,13 @@
 import base64
 import logging
 
+import requests
 from scrapy import Request
 
 logger = logging.getLogger(__name__)
+
+REQUEST_META_SESSION_KEY = "REQUEST-SESSION"
+SESSION_HEADER = "X-Crawlera-Session"
 
 
 def set_token_authenticated_proxy(request, proxy_info: dict):
@@ -60,3 +64,16 @@ def set_proxy(request: Request, proxy_configuration: dict):
         set_token_authenticated_proxy(request, proxy_configuration)
     else:
         logger.error("No proper proxy configuration provided")
+
+
+def get_zyte_session(request: Request, proxy_configuration: dict):
+    """Method to set Zyte session header for the request"""
+    if REQUEST_META_SESSION_KEY not in request.meta:
+        session_request = requests.post(
+            url=f"http://{proxy_configuration['host']}:{proxy_configuration['port']}/sessions",
+            auth=(proxy_configuration["token"], "")
+        )
+        session_key = session_request.text
+        request.meta[REQUEST_META_SESSION_KEY] = session_key
+
+    request.headers[SESSION_HEADER] = request.meta[REQUEST_META_SESSION_KEY]
