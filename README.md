@@ -54,7 +54,7 @@ Feel free to use it and add some docs here when you create useful pipelines/midd
 
 ## List of supported trade shows
 
-- TemplateSpider
+- _SPIDER_NAME_
 - AmbienteSpider
 - AtlantaGiftSpider
 - BDNYSpider
@@ -73,6 +73,7 @@ Feel free to use it and add some docs here when you create useful pipelines/midd
 - HighPointMarketSpider
 - HomeTextilesTodaySpider
 - HomeBuildingRenovationSpider
+- IBSSpider
 - ImmCologneSpider
 - InstanbulFurnitureSpider
 - InterGiftSpider
