@@ -1,6 +1,6 @@
 import datetime
 
-from scrapy.http import Response
+from scrapy.http import TextResponse
 
 from exhibitions.item_loaders.base_item_loaders.base_item_loader import BaseItemLoader
 from exhibitions.items.exhibitor import ExhibitorItem
@@ -30,10 +30,10 @@ class _SPIDER_NAME_(BaseSpider):
         }
     }
 
-    def fetch_exhibitors(self, response: Response):
+    def fetch_exhibitors(self, response: TextResponse):
         # replace with method fetching exhibitors list
         pass
 
-    def parse_exhibitors(self, response: Response):
+    def parse_exhibitors(self, response: TextResponse):
         # replace with method parse exhibitors data
         pass
