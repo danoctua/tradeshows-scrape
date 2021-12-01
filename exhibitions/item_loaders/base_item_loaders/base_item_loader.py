@@ -24,7 +24,7 @@ class BaseItemLoader(ItemLoader):
     manufacturers_out = Join(" | ")
     brands_out = Join(" | ")
     category_out = Join(" | ")
-    address_out = Join(" ")
+    address_out = Join(", ")
 
     @staticmethod
     def address_in(address_lines: List[Optional[str]]):
