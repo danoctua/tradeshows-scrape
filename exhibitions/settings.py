@@ -12,6 +12,8 @@ BOT_NAME = "exhibitions"
 SPIDER_MODULES = ["exhibitions.spiders"]
 NEWSPIDER_MODULE = "exhibitions.spiders"
 
+COMMANDS_MODULE = "commands"
+
 DUPEFILTER_CLASS = "scrapy.dupefilters.BaseDupeFilter"
 
 
