@@ -38,13 +38,16 @@ class Command(ScrapyCommand):
         spider_name = spider_name or show_name
         print(f"The new spider name is: {spider_name}.")
         show_date_str: str = input(
-            "Please enter the show date in the MM/DD/YYYY format."
-            "\n\tThe show date: "
+            "Please enter the show date in the MM/DD/YYYY format." "\n\tThe show date: "
         )
         show_date = datetime.datetime.strptime(show_date_str, "%d/%m/%Y").date()
         print(f"The show date is {show_date}")
         show_website: str = input(
-            "Please enter the show website"
-            "\n\tThe show website: "
+            "Please enter the show website" "\n\tThe show website: "
         )
-        create_new_spider(spider_name=spider_name, show_name=show_name, show_date=show_date, show_website=show_website)
+        create_new_spider(
+            spider_name=spider_name,
+            show_name=show_name,
+            show_date=show_date,
+            show_website=show_website,
+        )
