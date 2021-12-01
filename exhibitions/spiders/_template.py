@@ -7,12 +7,12 @@ from exhibitions.items.exhibitor import ExhibitorItem
 from exhibitions.spiders.base_spiders.base_spider import BaseSpider
 
 
-class TemplateSpider(BaseSpider):
-    name = "TemplateSpider"
+class _SPIDER_NAME_(BaseSpider):
+    name = "_SPIDER_NAME_"
 
-    EXHIBITION_DATE = datetime.date(1970, 1, 1)
-    EXHIBITION_NAME = "Template"
-    EXHIBITION_WEBSITE = "https://www.template.com/"
+    EXHIBITION_DATE = "_SHOW_DATE_"
+    EXHIBITION_NAME = "_SHOW_NAME_"
+    EXHIBITION_WEBSITE = "_SHOW_WEBSITE_"
 
     HEADERS = {}  # replace with headers dict
 
