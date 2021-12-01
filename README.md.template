@@ -54,38 +54,4 @@ Feel free to use it and add some docs here when you create useful pipelines/midd
 
 ## List of supported trade shows
 
-- TemplateSpider
-- AmbienteSpider
-- AtlantaGiftSpider
-- BDNYSpider
-- CasualMarketSpider
-- ChristmasWorldSpider
-- CoveringsSpider
-- DallasMarketSpider
-- DomotexSpider
-- EdSpacesSpider
-- FeriaYeclaSpider
-- FormexSpider
-- FurnitureManufacturingSpider
-- GivingLivingSpider
-- HarrogateFairSpider
-- HeimTextilSpider
-- HighPointMarketSpider
-- HomeTextilesTodaySpider
-- HomeBuildingRenovationSpider
-- ImmCologneSpider
-- InstanbulFurnitureSpider
-- InterGiftSpider
-- JanuaryFurnitureSpider
-- KBISSpider
-- LasVegasMarketSpider
-- LightFairSpider
-- MadeInCanadaSpider
-- NationalHardwareShowSpider
-- NeoconHubSpider
-- PoolSpaPatioSpider
-- SaloneMilanoSpider
-- SportsTaligateSpider
-- SuperZooSpider
-- SurfacesSpider
-- TopDrawerSpider
+<!LIST_OF_SPIDERS_HERE>
