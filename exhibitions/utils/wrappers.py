@@ -1,7 +1,7 @@
-import json
 from functools import wraps
+import warnings
 
-from exhibitions.utils.exceptions import JsonParsingException
+from scrapy.http import TextResponse
 
 
 def json_response_wrapper(method):
@@ -11,13 +11,12 @@ def json_response_wrapper(method):
 
         :raises DocumentStructureError
         """
-        response = kwargs.get("response") or args[1]
-        try:
-            response_json = json.loads(response.text)
-        except json.JSONDecodeError:
-            raise JsonParsingException("Can't parse json from API: ", response.text)
-        else:
-            kwargs["response_json"] = response_json
+        warnings.warn(
+            "Deprecated: Use TextResponse.json() package method instead.",
+            category=DeprecationWarning,
+        )
+        response: TextResponse = kwargs.get("response") or args[1]
+        kwargs["response_json"] = response.json()
         return method(*args, **kwargs)
 
     return inner
