@@ -51,3 +51,4 @@ class Command(ScrapyCommand):
             show_date=show_date,
             show_website=show_website,
         )
+        print(f"New spider for the show {show_name} was successfully created!")

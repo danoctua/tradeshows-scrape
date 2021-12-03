@@ -63,6 +63,7 @@ Feel free to use it and add some docs here when you create useful pipelines/midd
 - CoveringsSpider
 - DallasMarketSpider
 - DomotexSpider
+- EcommerceSpider
 - EdSpacesSpider
 - FeriaYeclaSpider
 - FormexSpider
@@ -84,6 +85,7 @@ Feel free to use it and add some docs here when you create useful pipelines/midd
 - MadeInCanadaSpider
 - NationalHardwareShowSpider
 - NeoconHubSpider
+- NewYorkNowSpider
 - PoolSpaPatioSpider
 - SaloneMilanoSpider
 - SportsTaligateSpider
