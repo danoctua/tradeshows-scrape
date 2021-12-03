@@ -7,17 +7,25 @@ Simple scrapping tool for extracting exhibitors data from the trade shows pages.
 
 Current features:
 * base spider with generating start request[s].
-* base exhibitor item with predefined fields (feel free to expand it with new fields).
+* base exhibitor item with predefined fields (add new fields if required).
 * export-to-csv pipeline [crawls for each spider are grouped in the folders].
 
 
 ## Configuration
 
-To use this tool, be sure to install all packages, mentioned in `requirements.txt` file.
+To use this tool, be sure to install all dependencies from the `requirements.txt` file.
 
 ## Development
 
-To develop new spider you have to make the following steps:
+### Automatic
+
+There's a custom command to create new trade show spider: `scrapy createspider`.
+
+You'll have to enter some required fields for the spider, and the core be generated from the template without any manual actions.
+
+### Manual
+
+To create new spider you have to make the following steps:
 
 * check if spider exists for this trade show.
 * if not, create spider file in the `spiders` folder (let's keep the same convention here: `trade_show_name_spider.py`).
@@ -38,9 +46,11 @@ Currently, available pipelines (please add a simple documentation when you're cr
 
 ### Middlewares
 Available middlewares:
-* `ProxyDownloaderMiddleware` - middleware to set proxy for spider requests. 
-  Remember to set the `PROXY` attribute for spider if you're using this middleware. 
+* `ProxyDownloaderMiddleware` - middleware to set proxy for spider requests.
+  Remember to set the `PROXY` attribute for spider if you're using this middleware.
   See middleware documentation and usages for more details.
+* `ProxySessionMiddleware` - the same as above, but provides useful in some cases feature - keeping the same IP for all the requests.
+  Currently, this is a proxy-dependent feature as the only Zyte is supporting this, but it maybe extended for other proxies as well.
 
 ## Running
 
@@ -53,6 +63,8 @@ Go to the `result/[SPIDER_NAME]` and you would find all crawl results here. Nami
 Feel free to use it and add some docs here when you create useful pipelines/middlewares.
 
 ## List of supported trade shows
+
+_This list is generated with the `scrapy readme` command._
 
 - _SPIDER_NAME_
 - AmbienteSpider
@@ -84,6 +96,7 @@ Feel free to use it and add some docs here when you create useful pipelines/midd
 - MadeInCanadaSpider
 - NationalHardwareShowSpider
 - NeoconHubSpider
+- NewYorkNowSpider
 - PoolSpaPatioSpider
 - SaloneMilanoSpider
 - SportsTaligateSpider
