@@ -3,7 +3,7 @@ import re
 from typing import Optional
 
 import scrapy
-from scrapy.http import Response, TextResponse
+from scrapy.http import TextResponse
 
 from exhibitions.constants import PROXY_ZYTE
 from exhibitions.item_loaders.base_item_loaders.base_item_loader import BaseItemLoader
@@ -28,9 +28,6 @@ class HomiMilanoSpider(BaseSpider):
         "Host": "expoplaza-homi.fieramilano.it",
         "Origin": "https://expoplaza-homi.fieramilano.it",
         "Connection": "keep-alive",
-        "Sec-Fetch-Dest": "empty",
-        "Sec-Fetch-Mode": "cors",
-        "Sec-Fetch-Site": "same-origin",
     }
 
     item_loader = BaseItemLoader
@@ -56,7 +53,8 @@ class HomiMilanoSpider(BaseSpider):
             "exhibitions.pipelines.export_item_pipeline.ExportItemPipeline": 100,
         },
         "COOKIES_ENABLED": True,
-        "COOKIES_DEBUG": True
+        "COOKIES_DEBUG": True,
+        "DOWNLOAD_DELAY": 0.5
     }
 
     COOKIE_JAR = "cookiejar"
