@@ -18,4 +18,7 @@ def get_secret(name: str) -> str:
     if not secret_path.exists():
         raise SecretDoesntExistException(f"No secret with the name {name}")
 
-    return open(secret_path, "r").read()
+    with open(secret_path, "r") as file:
+        data = file.read()
+
+    return data

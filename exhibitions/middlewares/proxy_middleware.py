@@ -3,7 +3,7 @@ from scrapy import Request, Spider
 from exhibitions.utils.proxy import set_proxy
 
 
-SPIDER_PROXY_CONFIGURATION_ATTRIBUTE = "PROXY"
+SPIDER_PROXY_ATTRIBUTE = "PROXY"
 
 
 class ProxyDownloaderMiddleware:
@@ -15,5 +15,5 @@ class ProxyDownloaderMiddleware:
 
     @staticmethod
     def process_request(request: Request, spider: Spider) -> None:
-        proxy_configuration = getattr(spider, SPIDER_PROXY_CONFIGURATION_ATTRIBUTE, {})
+        proxy_configuration = getattr(spider, SPIDER_PROXY_ATTRIBUTE)
         set_proxy(request, proxy_configuration)

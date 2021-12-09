@@ -4,6 +4,8 @@ import logging
 import requests
 from scrapy import Request
 
+from exhibitions.constants import DEFAULT_PROXY, PROXY_ZYTE, PROXY_CONFIGURATION
+
 logger = logging.getLogger(__name__)
 
 REQUEST_META_SESSION_KEY = "REQUEST-SESSION"
@@ -56,8 +58,7 @@ def set_zyte_proxy(request, proxy_info: dict):
     set_token_authenticated_proxy(request, proxy_info)
 
 
-def set_proxy(request: Request, proxy_configuration: dict):
-    """Method to set proxy based on provided configuration"""
+def set_proxy_for_configuration(request: Request, proxy_configuration: dict) -> None:
     if "username" in proxy_configuration and "password" in proxy_configuration:
         set_authenticated_proxy(request, proxy_configuration)
     elif "token" in proxy_configuration:
@@ -66,7 +67,17 @@ def set_proxy(request: Request, proxy_configuration: dict):
         logger.error("No proper proxy configuration provided")
 
 
-def get_zyte_session(request: Request, proxy_configuration: dict):
+def set_proxy(request: Request, proxy_name: str) -> None:
+    """Set proxy for the request by proxy name"""
+    proxy_configuration = PROXY_CONFIGURATION.get(proxy_name)
+    if not proxy_configuration:
+        proxy_configuration = PROXY_CONFIGURATION.get(DEFAULT_PROXY)
+    # Get the proxy set method and set the proxy using it based on the configuration
+    set_proxy_method = proxy_method_configuration.get(proxy_name, set_proxy_for_configuration)
+    set_proxy_method(request, proxy_configuration)
+
+
+def get_zyte_session(request: Request, proxy_configuration: dict) -> None:
     """Method to set Zyte session header for the request"""
     if REQUEST_META_SESSION_KEY not in request.meta:
         session_request = requests.post(
@@ -77,3 +88,8 @@ def get_zyte_session(request: Request, proxy_configuration: dict):
         request.meta[REQUEST_META_SESSION_KEY] = session_key
 
     request.headers[SESSION_HEADER] = request.meta[REQUEST_META_SESSION_KEY]
+
+
+proxy_method_configuration = {
+    PROXY_ZYTE: set_zyte_proxy
+}
