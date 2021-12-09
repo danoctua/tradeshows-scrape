@@ -3,19 +3,18 @@ import json
 
 from itemloaders.processors import SelectJmes
 import scrapy
-from scrapy.http import Response
+from scrapy.http import TextResponse
 
 from exhibitions.items.exhibitor import ExhibitorItem
 from exhibitions.item_loaders.base_item_loaders.base_item_loader import BaseItemLoader
 from exhibitions.spiders.base_spiders.base_spider import BaseSpider
-from exhibitions.utils.wrappers import json_response_wrapper
 
 
 class InterGiftSpider(BaseSpider):
     name = "InterGiftSpider"
 
-    EXHIBITION_DATE = datetime.date(2021, 9, 15)
-    EXHIBITION_NAME = "Intergift- September"
+    EXHIBITION_DATE = datetime.date(2022, 2, 2)
+    EXHIBITION_NAME = "Intergift"
     EXHIBITION_WEBSITE = "https://www.ifema.es/en/intergift"
 
     HEADERS = {
@@ -45,14 +44,14 @@ class InterGiftSpider(BaseSpider):
     EXHIBITOR_INFO_PAYLOAD = {
         "operationName": "ExhibitorDetailsPageQuery",
         "variables": {
-            "maxMembersToFetch": 100,
+            "skipMeetings": True,
             "exhibitorId": None,
             "eventId": "RXZlbnRfMzc1OTc4",
         },
         "extensions": {
             "persistedQuery": {
                 "version": 1,
-                "sha256Hash": "093a75c3786f4468a2b3b264b2c4ba00ccfa094f8b972db8ecf71cb8d2cf91ed",
+                "sha256Hash": "1bf579dbadb275dcb9973df8190ddba41df5bf7e38dacaf16c7200d8af8869ab",
             }
         },
     }
@@ -78,8 +77,8 @@ class InterGiftSpider(BaseSpider):
                 headers=self.HEADERS,
             )
 
-    @json_response_wrapper
-    def fetch_exhibitors(self, response: Response, response_json: dict):
+    def fetch_exhibitors(self, response: TextResponse):
+        response_json = response.json()
         exhibitors = SelectJmes("[0].data.view.exhibitors.nodes")(response_json)
         for exhibitor in exhibitors:
             payload = self.EXHIBITOR_INFO_PAYLOAD.copy()
@@ -107,8 +106,8 @@ class InterGiftSpider(BaseSpider):
             )
             del payload
 
-    @json_response_wrapper
-    def parse_exhibitors(self, response: Response, response_json: dict):
+    def parse_exhibitors(self, response: TextResponse):
+        response_json = response.json()
         exhibitor = self.item_loader(item=ExhibitorItem(), response=response)
         exhibitor_json = SelectJmes("[0].data.exhibitor")(response_json)
         exhibitor.add_value("exhibitor_name", SelectJmes("name")(exhibitor_json))
