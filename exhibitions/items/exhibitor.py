@@ -23,14 +23,13 @@ class ExhibitorItem(scrapy.Item):
         "brands",
         "description",
     ]
-    # add field if you need more here
+    # These fields are populated automatically from the spider attributes and settings
     show_name = scrapy.Field(field_name="ShowName")
     show_date = scrapy.Field(field_name="ShowDate")
     show_year = scrapy.Field(field_name="ShowYear")
     show_website = scrapy.Field(field_name="ShowWebsite")
     submitted_by = scrapy.Field(field_name="SubmittedBy")
 
-    exhibitor_url = scrapy.Field()
     exhibitor_name = scrapy.Field(field_name="ExhibitorName")
     booth_number = scrapy.Field(field_name="BoothNumber")
     hall_location = scrapy.Field(field_name="HallLocation")
@@ -45,12 +44,7 @@ class ExhibitorItem(scrapy.Item):
     email = scrapy.Field(field_name="Email")
     phone = scrapy.Field(field_name="Phone")
     fax = scrapy.Field(field_name="Fax")
-    # social
-    facebook = scrapy.Field(social=True)
-    instagram = scrapy.Field(social=True)
-    linkedin = scrapy.Field(social=True)
-    twitter = scrapy.Field(social=True)
 
     def get_order(self):
-        order = self._order
-        return order
+        """Method to get order of the fields that will be used in"""
+        return self._order

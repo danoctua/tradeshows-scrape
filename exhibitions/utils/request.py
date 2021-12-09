@@ -23,8 +23,6 @@ class RequestWithParams(Request):
         kwargs["url"] = unparsed_url
         super().__init__(*args, **kwargs)
 
-    pass
-
 
 def parse_params(url):
     url_parts = urlparse(url)
