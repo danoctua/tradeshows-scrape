@@ -79,6 +79,7 @@ _This list is generated with the `scrapy readme` command._
 - EdSpacesSpider
 - FeriaYeclaSpider
 - FormexSpider
+- FormLandSpider
 - FurnitureManufacturingSpider
 - GivingLivingSpider
 - HarrogateFairSpider
@@ -86,6 +87,7 @@ _This list is generated with the `scrapy readme` command._
 - HighPointMarketSpider
 - HomeTextilesTodaySpider
 - HomeBuildingRenovationSpider
+- HomiMilanoSpider
 - IBSSpider
 - ImmCologneSpider
 - InstanbulFurnitureSpider
