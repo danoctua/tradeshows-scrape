@@ -45,7 +45,7 @@ def prepare_readme():
 
 
 def create_new_spider(show_name: str, spider_name: str, show_date: datetime.date, show_website: str):
-    new_spider_file = f'{spider_name.replace(" ", "").lower()}_spider.py'
+    new_spider_file = f'{spider_name.replace(" ", "_").lower()}_spider.py'
     new_spider_class_name = f'{spider_name.replace(" ", "")}Spider'
     with open(SPIDERS_MODULE_PATH / TEMPLATE_SPIDER_FILE_NAME, "r") as source:
         data = source.read()

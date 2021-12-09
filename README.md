@@ -103,6 +103,7 @@ _This list is generated with the `scrapy readme` command._
 - PoolSpaPatioSpider
 - SaloneMilanoSpider
 - SportsTaligateSpider
+- SpringFairSpider
 - SuperZooSpider
 - SurfacesSpider
 - TopDrawerSpider
