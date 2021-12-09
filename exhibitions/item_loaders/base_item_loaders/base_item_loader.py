@@ -28,4 +28,4 @@ class BaseItemLoader(ItemLoader):
 
     @staticmethod
     def address_in(address_lines: List[Optional[str]]):
-        return [a.strip() for a in address_lines if isinstance(a, str)]
+        return [a.strip() for a in address_lines if isinstance(a, str) and a.strip()]
