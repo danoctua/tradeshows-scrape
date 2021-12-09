@@ -33,9 +33,15 @@ class HomiMilanoSpider(BaseSpider):
     item_loader = BaseItemLoader
     item = ExhibitorItem
 
-    GET_EXHIBITORS_INITIAL_URL: str = "https://expoplaza-homi.fieramilano.it/en/exhibitors"
-    LIST_EXHIBITORS_URL: str = "https://expoplaza-homi.fieramilano.it/en/search/exhibitors"
-    REQUEST_TOKEN_REGEX = re.compile(r"'requestObject': searchObject, 'token': '(?P<request_token>.*)'")
+    GET_EXHIBITORS_INITIAL_URL: str = (
+        "https://expoplaza-homi.fieramilano.it/en/exhibitors"
+    )
+    LIST_EXHIBITORS_URL: str = (
+        "https://expoplaza-homi.fieramilano.it/en/search/exhibitors"
+    )
+    REQUEST_TOKEN_REGEX = re.compile(
+        r"'requestObject': searchObject, 'token': '(?P<request_token>.*)'"
+    )
     token: str
     cookies: str
 
@@ -46,7 +52,7 @@ class HomiMilanoSpider(BaseSpider):
     custom_settings = {
         "DOWNLOADER_MIDDLEWARES": {
             "exhibitions.middlewares.proxy_middleware.ProxyDownloaderMiddleware": 0,
-            "scrapy.downloadermiddlewares.cookies.CookiesMiddleware": 5
+            "scrapy.downloadermiddlewares.cookies.CookiesMiddleware": 5,
         },
         "ITEM_PIPELINES": {
             "exhibitions.pipelines.prefetch_exhibition_data_pipeline.PrefetchExhibitionDataPipeline": 10,
@@ -54,7 +60,7 @@ class HomiMilanoSpider(BaseSpider):
         },
         "COOKIES_ENABLED": True,
         "COOKIES_DEBUG": True,
-        "DOWNLOAD_DELAY": 0.5
+        "DOWNLOAD_DELAY": 0.5,
     }
 
     COOKIE_JAR = "cookiejar"
@@ -64,7 +70,7 @@ class HomiMilanoSpider(BaseSpider):
             url=self.GET_EXHIBITORS_INITIAL_URL,
             headers=self.HEADERS,
             meta={"cookiejar": self.COOKIE_JAR},
-            callback=self.fetch_exhibitors
+            callback=self.fetch_exhibitors,
         )
 
     def _get_request_body(self, offset: int = 1) -> dict:
@@ -72,7 +78,7 @@ class HomiMilanoSpider(BaseSpider):
             "requestObject[exhibitorName]": "",
             "requestObject[category][name]": "",
             "requestObject[offset]": str(offset),
-            "token": self.token
+            "token": self.token,
         }
 
     def fetch_exhibitors(self, response: TextResponse):
@@ -89,7 +95,7 @@ class HomiMilanoSpider(BaseSpider):
                 callback=self.parse_exhibitors,
                 meta=response.meta,
                 headers=self.HEADERS,
-                cookies=response.request.cookies
+                cookies=response.request.cookies,
             )
         current_offset = response.meta.get("offset", 0)
         yield scrapy.FormRequest(
@@ -102,8 +108,12 @@ class HomiMilanoSpider(BaseSpider):
 
     def parse_exhibitors(self, response: TextResponse):
         exhibitor_item = self.item_loader(self.item(), response)
-        exhibitor_item.add_xpath("exhibitor_name", "//*[@class='exhibitor-name']/text()")
-        stand = response.xpath("//*[contains(@class, 'padiglione-wrap')]/span/text()").getall()
+        exhibitor_item.add_xpath(
+            "exhibitor_name", "//*[@class='exhibitor-name']/text()"
+        )
+        stand = response.xpath(
+            "//*[contains(@class, 'padiglione-wrap')]/span/text()"
+        ).getall()
         if len(stand) == 2:
             hall_location, booth_number = stand
             exhibitor_item.add_value("hall_location", hall_location.rstrip(" -"))
@@ -113,13 +123,21 @@ class HomiMilanoSpider(BaseSpider):
             [
                 self._get_attribute_by_label(response, label)
                 for label in ["City", "Address"]
-            ]
+            ],
         )
-        exhibitor_item.add_value("country", self._get_attribute_by_label(response, "Country"))
-        exhibitor_item.add_value("phone", self._get_attribute_by_label(response, "Phone"))
+        exhibitor_item.add_value(
+            "country", self._get_attribute_by_label(response, "Country")
+        )
+        exhibitor_item.add_value(
+            "phone", self._get_attribute_by_label(response, "Phone")
+        )
         exhibitor_item.add_value("fax", self._get_attribute_by_label(response, "Fax"))
-        exhibitor_item.add_value("email", self._get_attribute_by_label(response, "Email"))
-        exhibitor_item.add_value("website", self._get_attribute_by_label(response, "Website"))
+        exhibitor_item.add_value(
+            "email", self._get_attribute_by_label(response, "Email")
+        )
+        exhibitor_item.add_value(
+            "website", self._get_attribute_by_label(response, "Website")
+        )
         yield exhibitor_item.load_item()
 
     @staticmethod

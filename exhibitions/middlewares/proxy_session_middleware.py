@@ -1,6 +1,9 @@
 from scrapy import Request, Spider
 
-from exhibitions.middlewares.proxy_middleware import ProxyDownloaderMiddleware, SPIDER_PROXY_CONFIGURATION_ATTRIBUTE
+from exhibitions.middlewares.proxy_middleware import (
+    ProxyDownloaderMiddleware,
+    SPIDER_PROXY_CONFIGURATION_ATTRIBUTE,
+)
 from exhibitions.utils.proxy import get_zyte_session
 
 

@@ -73,7 +73,9 @@ def set_proxy(request: Request, proxy_name: str) -> None:
     if not proxy_configuration:
         proxy_configuration = PROXY_CONFIGURATION.get(DEFAULT_PROXY)
     # Get the proxy set method and set the proxy using it based on the configuration
-    set_proxy_method = proxy_method_configuration.get(proxy_name, set_proxy_for_configuration)
+    set_proxy_method = proxy_method_configuration.get(
+        proxy_name, set_proxy_for_configuration
+    )
     set_proxy_method(request, proxy_configuration)
 
 
@@ -82,7 +84,7 @@ def get_zyte_session(request: Request, proxy_configuration: dict) -> None:
     if REQUEST_META_SESSION_KEY not in request.meta:
         session_request = requests.post(
             url=f"http://{proxy_configuration['host']}:{proxy_configuration['port']}/sessions",
-            auth=(proxy_configuration["token"], "")
+            auth=(proxy_configuration["token"], ""),
         )
         session_key = session_request.text
         request.meta[REQUEST_META_SESSION_KEY] = session_key
@@ -90,6 +92,4 @@ def get_zyte_session(request: Request, proxy_configuration: dict) -> None:
     request.headers[SESSION_HEADER] = request.meta[REQUEST_META_SESSION_KEY]
 
 
-proxy_method_configuration = {
-    PROXY_ZYTE: set_zyte_proxy
-}
+proxy_method_configuration = {PROXY_ZYTE: set_zyte_proxy}
