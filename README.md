@@ -104,6 +104,7 @@ _This list is generated with the `scrapy readme` command._
 - SaloneMilanoSpider
 - SportsTaligateSpider
 - SpringFairSpider
+- StockholmFurnitureSpider
 - SuperZooSpider
 - SurfacesSpider
 - TopDrawerSpider
