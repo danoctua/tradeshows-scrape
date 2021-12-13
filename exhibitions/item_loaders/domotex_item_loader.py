@@ -1,8 +1,5 @@
-from typing import List, Optional
-
 from exhibitions.item_loaders.base_item_loaders.base_item_loader import (
     BaseItemLoader,
-    join_loaded,
 )
 
 

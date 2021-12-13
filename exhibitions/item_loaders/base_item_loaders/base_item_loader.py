@@ -1,3 +1,4 @@
+import re
 from typing import List, Optional
 from w3lib.html import remove_tags
 
