@@ -27,14 +27,18 @@ class CanadianGiftSpider(BaseSpider):
         "Origin": "http://ecw.cangift.org",
         "Referer": "http://ecw.cangift.org/ecw_TR/ec/forms/attendee/index5.aspx?searchText=%20&content=list&lang=en&PLshows=TR",
         "Accept-Encoding": "gzip, deflate",
-        "Accept-Language": "en-US,en;q=0.9,ru-RU;q=0.8,ru;q=0.7,pl-PL;q=0.6,pl;q=0.5"
+        "Accept-Language": "en-US,en;q=0.9,ru-RU;q=0.8,ru;q=0.7,pl-PL;q=0.6,pl;q=0.5",
     }
 
     item_loader = CanadianGiftItemLoader
     item = ExhibitorItem
 
-    LIST_API_URL: str = "http://ecw.cangift.org/ecw_TR/Integration/EC/JsonService.asmx/GetPackage2"
-    EXHIBITOR_API_URL: str = "http://ecw.cangift.org/ecw_TR/ec/forms/attendee/vbooth5.aspx?id={exhibitor_id}"
+    LIST_API_URL: str = (
+        "http://ecw.cangift.org/ecw_TR/Integration/EC/JsonService.asmx/GetPackage2"
+    )
+    EXHIBITOR_API_URL: str = (
+        "http://ecw.cangift.org/ecw_TR/ec/forms/attendee/vbooth5.aspx?id={exhibitor_id}"
+    )
 
     custom_settings = {
         "ITEM_PIPELINES": {
@@ -49,7 +53,7 @@ class CanadianGiftSpider(BaseSpider):
             method="POST",
             body="{}",
             callback=self.fetch_exhibitors,
-            headers=self.HEADERS
+            headers=self.HEADERS,
         )
 
     def fetch_exhibitors(self, response: TextResponse):
@@ -66,8 +70,14 @@ class CanadianGiftSpider(BaseSpider):
         exhibitor_item = self.item_loader(self.item(), response)
         exhibitor_item.add_xpath("exhibitor_name", "//span[@id='lblName']/text()")
         exhibitor_item.add_xpath("booth_number", "//a[@id='boothsLink']/text()")
-        exhibitor_item.add_xpath("phone", "//span[contains(@id, 'lblvbBCardAddr') and contains(text(), 'Phone')]/text()")
-        exhibitor_item.add_xpath("phone", "//span[contains(@id, 'lblvbBCardAddr') and contains(text(), 'Fax')]/text()")
+        exhibitor_item.add_xpath(
+            "phone",
+            "//span[contains(@id, 'lblvbBCardAddr') and contains(text(), 'Phone')]/text()",
+        )
+        exhibitor_item.add_xpath(
+            "phone",
+            "//span[contains(@id, 'lblvbBCardAddr') and contains(text(), 'Fax')]/text()",
+        )
         exhibitor_item.add_xpath("website", "//a[@id='linkvbBCardUrl']/text()")
         exhibitor_item.add_xpath("description", "//span[@id='lblvbProfile']/p/text()")
         exhibitor_item.add_xpath("category", "//span[@id='lblvbCats']/td/text()")
