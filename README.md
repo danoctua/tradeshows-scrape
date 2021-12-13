@@ -70,6 +70,7 @@ _This list is generated with the `scrapy readme` command._
 - AmbienteSpider
 - AtlantaGiftSpider
 - BDNYSpider
+- CanadianGiftSpider
 - CasualMarketSpider
 - ChristmasWorldSpider
 - CoveringsSpider

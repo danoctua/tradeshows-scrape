@@ -40,7 +40,7 @@ class Command(ScrapyCommand):
         show_date_str: str = input(
             "Please enter the show date in the MM/DD/YYYY format." "\n\tThe show date: "
         )
-        show_date = datetime.datetime.strptime(show_date_str, "%d/%m/%Y").date()
+        show_date = datetime.datetime.strptime(show_date_str, "%m/%d/%Y").date()
         print(f"The show date is {show_date}")
         show_website: str = input(
             "Please enter the show website" "\n\tThe show website: "
@@ -51,4 +51,4 @@ class Command(ScrapyCommand):
             show_date=show_date,
             show_website=show_website,
         )
-        print(f"New spider for the show {show_name} was successfully created!")
+        print(f"The new spider for the show {show_name} was successfully created!")
