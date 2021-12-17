@@ -8,7 +8,7 @@ class ChristmasWorldSpider(BaseMesseFrankfurtSpider):
     name = "ChristmasWorldSpider"
 
     EXHIBITION_DATE = datetime.date(2022, 1, 28)
-    EXHIBITION_NAME = "Ambiente"
+    EXHIBITION_NAME = "Christmasworld 2022"
     EXHIBITION_WEBSITE = "https://christmasworld.messefrankfurt.com"
 
     FIND_EVENT_VARIABLE: str = "CHRISTMASWORLD"
