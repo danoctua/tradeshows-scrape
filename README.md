@@ -101,6 +101,7 @@ _This list is generated with the `scrapy readme` command._
 - NationalHardwareShowSpider
 - NeoconHubSpider
 - NewYorkNowSpider
+- PartnertageSpider
 - PoolSpaPatioSpider
 - SaloneMilanoSpider
 - SportsTaligateSpider
@@ -109,3 +110,4 @@ _This list is generated with the `scrapy readme` command._
 - SuperZooSpider
 - SurfacesSpider
 - TopDrawerSpider
+- ToyFairSpider
