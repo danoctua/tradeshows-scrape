@@ -39,7 +39,6 @@ class BaseA2ZSpider(BaseSpider):
         if not uid:
             raise NoExhibitorException("Can't get exhibitor ID from URL")
         item = self.item_loader(item=ExhibitorItem(), response=response)
-        item.add_value("exhibitor_url", response.url)
         item.add_xpath("exhibitor_name", '//*[@id="eboothContainer"]//h1/text()')
         city = response.xpath('//*[@class="BoothContactCity"]/text()').extract_first()
         state = response.xpath('//*[@class="BoothContactState"]/text()').extract_first()

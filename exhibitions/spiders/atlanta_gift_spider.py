@@ -29,7 +29,7 @@ class AtlantaGiftSpider(BaseSpider):
     name = "AtlantaGiftSpider"
 
     EXHIBITION_DATE = datetime.date(2022, 1, 11)
-    EXHIBITION_NAME = "Atlanta Gift"
+    EXHIBITION_NAME = "Atlanta Gift - Winter"
     EXHIBITION_WEBSITE = "https://atlantamarket.com/"
 
     HEADERS = {
