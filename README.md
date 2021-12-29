@@ -84,6 +84,7 @@ _This list is generated with the `scrapy readme` command._
 - FurnitureManufacturingSpider
 - GivingLivingSpider
 - HarrogateFairSpider
+- HearthPatioSpider
 - HeimTextilSpider
 - HighPointMarketSpider
 - HomeTextilesTodaySpider
@@ -93,6 +94,7 @@ _This list is generated with the `scrapy readme` command._
 - ImmCologneSpider
 - InstanbulFurnitureSpider
 - InterGiftSpider
+- InternationalRestaurantSpider
 - JanuaryFurnitureSpider
 - KBISSpider
 - LasVegasMarketSpider
