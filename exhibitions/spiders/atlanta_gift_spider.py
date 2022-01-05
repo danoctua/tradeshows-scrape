@@ -16,7 +16,7 @@ API_KEY = "391D75C6-01EE-463C-8B51-47B2748F8ACD"
 SEARCH_PAGE = "b20c0e90-484d-4848-8ea6-bc3b2bcc391f"
 
 EXHIBITOR_INFO_API = "https://www.atlantamarket.com/imc-api/v2/exhibitors/OpenDetails?sc_apikey={API_KEY}&exhibitorIds={exhibitor_id}"
-MAX_NUMBER_OF_EXHIBITORS = 2000
+MAX_NUMBER_OF_EXHIBITORS = 3000
 
 
 class AtlantaGiftSpider(BaseSpider):

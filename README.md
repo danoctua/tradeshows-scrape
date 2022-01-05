@@ -92,6 +92,7 @@ _This list is generated with the `scrapy readme` command._
 - HomiMilanoSpider
 - IBSSpider
 - ImmCologneSpider
+- InspiredHomeShowSpider
 - InstanbulFurnitureSpider
 - InterGiftSpider
 - InternationalRestaurantSpider
