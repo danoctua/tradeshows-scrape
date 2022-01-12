@@ -9,7 +9,7 @@ class SurfacesSpider(BaseMapYourShowSpider):
     name = "SurfacesSpider"
 
     EXHIBITION_DATE = datetime.date(2022, 2, 1)
-    EXHIBITION_NAME = "Surfaces 2022"
+    EXHIBITION_NAME = "Surfaces"
     EXHIBITION_WEBSITE = "https://www.intlsurfaceevent.com/"
 
     EXHIBITION_CODE = "sur221"

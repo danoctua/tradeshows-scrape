@@ -12,8 +12,8 @@ from exhibitions.spiders.base_spiders.base_spider import BaseSpider
 class HomeTextilesTodaySpider(BaseSpider):
     name = "HomeTextilesTodaySpider"
 
-    EXHIBITION_DATE = datetime.date(2021, 10, 4)
-    EXHIBITION_NAME = "NY Textiles Market - Fall"
+    EXHIBITION_DATE = datetime.date(2022, 3, 21)
+    EXHIBITION_NAME = "NY Textiles Market - Spring"
     EXHIBITION_WEBSITE = "https://www.hometextilestoday.com/"
 
     HEADERS = {}  # replace with headers dict
@@ -43,7 +43,6 @@ class HomeTextilesTodaySpider(BaseSpider):
         item = self.item_loader(item=self.item(), response=response)
         exhibitor_data: List[str] = exhibitor.xpath("./p[1]//text()").getall()
         description = exhibitor.xpath("./p[2]//text()").get()
-        # print(exhibitor_data)
         exhibitor_name, _, _, email, address1, address2, *args = exhibitor_data
         item.add_value("exhibitor_name", exhibitor_name)
         item.add_value("email", email)

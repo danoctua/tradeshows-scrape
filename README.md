@@ -67,8 +67,10 @@ Feel free to use it and add some docs here when you create useful pipelines/midd
 _This list is generated with the `scrapy readme` command._
 
 - _SPIDER_NAME_
+- AAHQASpider
 - AmbienteSpider
 - AtlantaGiftSpider
+- BarAndRestaurantSpider
 - BDNYSpider
 - CanadianGiftSpider
 - CasualMarketSpider
@@ -83,6 +85,7 @@ _This list is generated with the `scrapy readme` command._
 - FormLandSpider
 - FurnitureManufacturingSpider
 - GivingLivingSpider
+- GlobalPetExpoSpider
 - HarrogateFairSpider
 - HearthPatioSpider
 - HeimTextilSpider
@@ -101,11 +104,13 @@ _This list is generated with the `scrapy readme` command._
 - LasVegasMarketSpider
 - LightFairSpider
 - MadeInCanadaSpider
+- MadisonSpider
 - NationalHardwareShowSpider
 - NeoconHubSpider
 - NewYorkNowSpider
 - PartnertageSpider
 - PoolSpaPatioSpider
+- ProsperSpider
 - SaloneMilanoSpider
 - SportsTaligateSpider
 - SpringFairSpider
