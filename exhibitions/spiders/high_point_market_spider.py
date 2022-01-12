@@ -10,8 +10,8 @@ from exhibitions.spiders.base_spiders.base_spider import BaseSpider
 class HighPointMarketSpider(BaseSpider):
     name = "HighPointMarketSpider"
 
-    EXHIBITION_DATE = datetime.date(2021, 10, 16)
-    EXHIBITION_NAME = "High Point Market - Fall"
+    EXHIBITION_DATE = datetime.date(2022, 2, 4)
+    EXHIBITION_NAME = "High Point Market - Sprint"
     EXHIBITION_WEBSITE = "https://www.highpointmarket.org/"
 
     HEADERS = {}  # replace with headers dict

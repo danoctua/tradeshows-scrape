@@ -14,8 +14,8 @@ from exhibitions.utils.wrappers import json_response_wrapper
 class NationalHardwareShowSpider(BaseSpider):
     name = "NationalHardwareShowSpider"
 
-    EXHIBITION_DATE = datetime.date(2021, 10, 21)
-    EXHIBITION_NAME = "National Hardware Show 2021"
+    EXHIBITION_DATE = datetime.date(2022, 4, 5)
+    EXHIBITION_NAME = "National Hardware Show"
     EXHIBITION_WEBSITE = "https://www.nationalhardwareshow.com/"
 
     HEADERS = {}  # replace with headers dict
