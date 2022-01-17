@@ -80,6 +80,7 @@ _This list is generated with the `scrapy readme` command._
 - DomotexSpider
 - EcommerceSpider
 - EdSpacesSpider
+- ExponorSpider
 - FeriaYeclaSpider
 - FormexSpider
 - FormLandSpider
@@ -100,11 +101,15 @@ _This list is generated with the `scrapy readme` command._
 - InterGiftSpider
 - InternationalRestaurantSpider
 - JanuaryFurnitureSpider
+- KBBSpider
 - KBISSpider
+- KiffSpider
 - LasVegasMarketSpider
+- LichtwocheSauerlandSpider
 - LightFairSpider
 - MadeInCanadaSpider
 - MadisonSpider
+- MobitexSpider
 - NationalHardwareShowSpider
 - NeoconHubSpider
 - NewYorkNowSpider
