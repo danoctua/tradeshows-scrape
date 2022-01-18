@@ -82,6 +82,7 @@ _This list is generated with the `scrapy readme` command._
 - EdSpacesSpider
 - ExponorSpider
 - FeriaYeclaSpider
+- ForGardenSpider
 - FormexSpider
 - FormLandSpider
 - FurnitureManufacturingSpider
@@ -101,11 +102,13 @@ _This list is generated with the `scrapy readme` command._
 - InterGiftSpider
 - InternationalRestaurantSpider
 - JanuaryFurnitureSpider
+- JDCSpider
 - KBBSpider
 - KBISSpider
 - KiffSpider
 - LasVegasMarketSpider
 - LichtwocheSauerlandSpider
+- LightBuildingSpider
 - LightFairSpider
 - MadeInCanadaSpider
 - MadisonSpider
@@ -117,6 +120,7 @@ _This list is generated with the `scrapy readme` command._
 - PoolSpaPatioSpider
 - ProsperSpider
 - SaloneMilanoSpider
+- ShkessenSpider
 - SportsTaligateSpider
 - SpringFairSpider
 - StockholmFurnitureSpider
