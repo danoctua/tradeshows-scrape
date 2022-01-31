@@ -86,9 +86,11 @@ _This list is generated with the `scrapy readme` command._
 - FormexSpider
 - FormLandSpider
 - FurnitureManufacturingSpider
+- FurnitureManufacturersSpider
 - GivingLivingSpider
 - GlobalPetExpoSpider
 - HarrogateFairSpider
+- HDExpoSpider
 - HearthPatioSpider
 - HeimTextilSpider
 - HighPointMarketSpider
@@ -112,6 +114,7 @@ _This list is generated with the `scrapy readme` command._
 - LightFairSpider
 - MadeInCanadaSpider
 - MadisonSpider
+- MeblePolskaSpider
 - MobitexSpider
 - NationalHardwareShowSpider
 - NeoconHubSpider
