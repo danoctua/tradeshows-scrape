@@ -29,9 +29,18 @@ class InterGiftSpider(BaseSpider):
     BODY_PAYLOAD = {
         "operationName": "EventExhibitorList",
         "variables": {
-            "viewId": "RXZlbnRWaWV3XzE2ODI4Mg==",
+            "viewId": "RXZlbnRWaWV3XzMwODQ1Nw==",
             "search": "",
-            "selectedFilters": [{"mustEventFiltersIn": []}],
+            "selectedFilters": [  # This will filter records by category
+                {
+                    "mustEventFiltersIn": [
+                        {
+                            "filterId": "RmllbGREZWZpbml0aW9uXzIwODQ1OA==",
+                            "values": ["RmllbGRWYWx1ZV8xNTU4ODI5NQ=="],
+                        }
+                    ]
+                }
+            ],
         },
         "extensions": {
             "persistedQuery": {
@@ -46,12 +55,12 @@ class InterGiftSpider(BaseSpider):
         "variables": {
             "skipMeetings": True,
             "exhibitorId": None,
-            "eventId": "RXZlbnRfMzc1OTc4",
+            "eventId": "RXZlbnRfNzYyNzA0",
         },
         "extensions": {
             "persistedQuery": {
                 "version": 1,
-                "sha256Hash": "1bf579dbadb275dcb9973df8190ddba41df5bf7e38dacaf16c7200d8af8869ab",
+                "sha256Hash": "63a708c23990ce28e1fae4978b78a7ea6000c239aaa6a924bfe21ef3a165f599",
             }
         },
     }
