@@ -114,6 +114,7 @@ _This list is generated with the `scrapy readme` command._
 - LightFairSpider
 - MadeInCanadaSpider
 - MadisonSpider
+- MaisonObjetSpider
 - MeblePolskaSpider
 - MobitexSpider
 - NationalHardwareShowSpider
