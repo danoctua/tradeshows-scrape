@@ -10,7 +10,7 @@ from exhibitions.spiders.base_spiders.base_spider import BaseSpider
 class FurnitureManufacturersSpider(BaseSpider):
     name = "FurnitureManufacturersSpider"
 
-    EXHIBITION_DATE = datetime.date(2022, 2, 1)
+    EXHIBITION_DATE = datetime.date(2022, 2, 11)
     EXHIBITION_NAME = "Furniture Manufacturers"
     EXHIBITION_WEBSITE = "https://www.bfm.org.uk/directory/furniture-manufacturers/"
 

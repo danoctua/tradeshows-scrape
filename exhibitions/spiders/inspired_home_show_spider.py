@@ -11,7 +11,7 @@ from exhibitions.spiders.base_spiders.base_spider import BaseSpider
 class InspiredHomeShowSpider(BaseSpider):
     name = "InspiredHomeShowSpider"
 
-    EXHIBITION_DATE = datetime.date(2022, 1, 3)
+    EXHIBITION_DATE = datetime.date(2022, 3, 5)
     EXHIBITION_NAME = "International Housewares Association (IHA)"
     EXHIBITION_WEBSITE = "https://www.housewares.org/"
 
