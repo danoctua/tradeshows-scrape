@@ -20,7 +20,6 @@ class BaseItemLoader(ItemLoader):
     default_input_processor = MapCompose(str.strip)
     default_output_processor = TakeFirst()
 
-    exhibitor_name_in = MapCompose(str.strip)
     description_in = MapCompose(str.strip, remove_tags)
     manufacturers_out = Join(" | ")
     brands_out = Join(" | ")

@@ -14,7 +14,7 @@ from exhibitions.spiders.base_spiders.base_spider import BaseSpider
 class HomiMilanoSpider(BaseSpider):
     name = "HomiMilanoSpider"
 
-    EXHIBITION_DATE = datetime.date(2022, 1, 23)
+    EXHIBITION_DATE = datetime.date(2022, 3, 11)
     EXHIBITION_NAME = "Homi Milano"
     EXHIBITION_WEBSITE = "http://www.bilbaomueble.com/"
 

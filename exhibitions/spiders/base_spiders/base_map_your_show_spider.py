@@ -1,4 +1,4 @@
-from typing import Dict, List
+from typing import Dict, List, Optional
 
 import scrapy
 from itemloaders.processors import SelectJmes
@@ -9,9 +9,9 @@ from exhibitions.items.exhibitor import ExhibitorItem
 from exhibitions.spiders.base_spiders.base_spider import BaseSpider
 from exhibitions.utils.wrappers import json_response_wrapper
 
-EXHIBITOR_INFO_API = "https://{exhibition_code}.mapyourshow.com/8_0/exhview/exh-remote-proxy.cfm?action=getExhibitorInfo&exhID={exhibitor_id}"
-EXHIBITOR_BOOTHS_API = "https://{exhibition_code}.mapyourshow.com/8_0/exhview/exh-remote-proxy.cfm?action=getExhibitorBooths&exhID={exhibitor_id}"
-EXHIBITORS_LIST_API = "https://{exhibition_code}.mapyourshow.com/8_0/exhview/exh-remote-proxy.cfm?action=getExhibitorNames"
+DEFAULT_EXHIBITOR_INFO_API = "https://{exhibition_code}.mapyourshow.com/8_0/exhview/exh-remote-proxy.cfm?action=getExhibitorInfo&exhID={exhibitor_id}"
+DEFAULT_EXHIBITOR_BOOTHS_API = "https://{exhibition_code}.mapyourshow.com/8_0/exhview/exh-remote-proxy.cfm?action=getExhibitorBooths&exhID={exhibitor_id}"
+DEFAULT_EXHIBITORS_LIST_API = "https://{exhibition_code}.mapyourshow.com/8_0/exhview/exh-remote-proxy.cfm?action=getExhibitorNames"
 
 
 class BaseMapYourShowSpider(BaseSpider):
@@ -23,9 +23,11 @@ class BaseMapYourShowSpider(BaseSpider):
 
     item_loader = BaseItemLoader
 
-    URLS = [
-        "https://lf2021.mapyourshow.com/8_0/exhview/exh-remote-proxy.cfm?action=getExhibitorNames",
-    ]
+    URLS = []
+
+    EXHIBITOR_INFO_API: Optional[str] = None
+    EXHIBITOR_BOOTHS_API: Optional[str] = None
+    EXHIBITORS_LIST_API: Optional[str] = None
 
     custom_settings = {
         "ITEM_PIPELINES": {
@@ -36,7 +38,8 @@ class BaseMapYourShowSpider(BaseSpider):
 
     def start_requests(self):
         yield scrapy.Request(
-            url=EXHIBITORS_LIST_API.format(exhibition_code=self.EXHIBITION_CODE),
+            url=self.EXHIBITORS_LIST_API
+            or DEFAULT_EXHIBITORS_LIST_API.format(exhibition_code=self.EXHIBITION_CODE),
             headers=self.HEADERS,
             callback=self.fetch_exhibitors,
         )
@@ -47,8 +50,12 @@ class BaseMapYourShowSpider(BaseSpider):
             exhibitor_id = exhibitor_data.get("fieldvalue")
             if exhibitor_id:
                 yield response.follow(
-                    EXHIBITOR_INFO_API.format(
-                        exhibitor_id=exhibitor_id, exhibition_code=self.EXHIBITION_CODE
+                    url=(
+                        self.EXHIBITOR_INFO_API.format(exhibitor_id=exhibitor_id)
+                        or DEFAULT_EXHIBITOR_INFO_API.format(
+                            exhibitor_id=exhibitor_id,
+                            exhibition_code=self.EXHIBITION_CODE,
+                        )
                     ),
                     callback=self.parse_exhibitors,
                     headers=self.HEADERS,
@@ -70,10 +77,14 @@ class BaseMapYourShowSpider(BaseSpider):
         exhibitor_item.add_value(
             "description", SelectJmes("[].description")(response_json)
         )
+        exhibitor_id = SelectJmes("[0].exhid")(response_json)
         yield response.follow(
-            EXHIBITOR_BOOTHS_API.format(
-                exhibitor_id=SelectJmes("[0].exhid")(response_json),
-                exhibition_code=self.EXHIBITION_CODE,
+            url=(
+                self.EXHIBITOR_BOOTHS_API.format(exhibitor_id=exhibitor_id)
+                or DEFAULT_EXHIBITOR_BOOTHS_API.format(
+                    exhibitor_id=exhibitor_id,
+                    exhibition_code=self.EXHIBITION_CODE,
+                )
             ),
             callback=self.parse_exhibitor_booths,
             headers=self.HEADERS,
