@@ -41,7 +41,9 @@ class BaseMapYourShowSpider(BaseSpider):
             url=(
                 self.EXHIBITORS_LIST_API
                 if self.EXHIBITORS_LIST_API
-                else DEFAULT_EXHIBITORS_LIST_API.format(exhibition_code=self.EXHIBITION_CODE)
+                else DEFAULT_EXHIBITORS_LIST_API.format(
+                    exhibition_code=self.EXHIBITION_CODE
+                )
             ),
             headers=self.HEADERS,
             callback=self.fetch_exhibitors,
