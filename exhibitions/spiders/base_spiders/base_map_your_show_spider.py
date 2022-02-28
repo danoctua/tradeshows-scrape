@@ -38,8 +38,11 @@ class BaseMapYourShowSpider(BaseSpider):
 
     def start_requests(self):
         yield scrapy.Request(
-            url=self.EXHIBITORS_LIST_API
-            or DEFAULT_EXHIBITORS_LIST_API.format(exhibition_code=self.EXHIBITION_CODE),
+            url=(
+                self.EXHIBITORS_LIST_API
+                if self.EXHIBITORS_LIST_API
+                else DEFAULT_EXHIBITORS_LIST_API.format(exhibition_code=self.EXHIBITION_CODE)
+            ),
             headers=self.HEADERS,
             callback=self.fetch_exhibitors,
         )
@@ -52,7 +55,8 @@ class BaseMapYourShowSpider(BaseSpider):
                 yield response.follow(
                     url=(
                         self.EXHIBITOR_INFO_API.format(exhibitor_id=exhibitor_id)
-                        or DEFAULT_EXHIBITOR_INFO_API.format(
+                        if self.EXHIBITOR_INFO_API
+                        else DEFAULT_EXHIBITOR_INFO_API.format(
                             exhibitor_id=exhibitor_id,
                             exhibition_code=self.EXHIBITION_CODE,
                         )
@@ -81,7 +85,8 @@ class BaseMapYourShowSpider(BaseSpider):
         yield response.follow(
             url=(
                 self.EXHIBITOR_BOOTHS_API.format(exhibitor_id=exhibitor_id)
-                or DEFAULT_EXHIBITOR_BOOTHS_API.format(
+                if self.EXHIBITOR_BOOTHS_API
+                else DEFAULT_EXHIBITOR_BOOTHS_API.format(
                     exhibitor_id=exhibitor_id,
                     exhibition_code=self.EXHIBITION_CODE,
                 )
